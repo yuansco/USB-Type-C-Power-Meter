@@ -1,0 +1,1260 @@
+ARM GAS  /tmp/ccjV0RBx.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"board.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text._write,"ax",%progbits
+  20              		.align	2
+  21              		.global	_write
+  22              		.code	16
+  23              		.thumb_func
+  25              	_write:
+  26              	.LFB41:
+  27              		.file 1 "Core/Src/board.c"
+   1:Core/Src/board.c **** 
+   2:Core/Src/board.c **** 
+   3:Core/Src/board.c **** #include "board.h"
+   4:Core/Src/board.c **** #include "gpio_uart.h"
+   5:Core/Src/board.c **** #include "ina3221.h"
+   6:Core/Src/board.c **** #include "main.h"
+   7:Core/Src/board.c **** #include "ssd1306.h"
+   8:Core/Src/board.c **** #include "ssd1306_fonts.h"
+   9:Core/Src/board.c **** #include <stdio.h>
+  10:Core/Src/board.c **** #include <string.h>
+  11:Core/Src/board.c **** 
+  12:Core/Src/board.c **** /******************************************************************************/
+  13:Core/Src/board.c **** /* Extern Handle Type */
+  14:Core/Src/board.c **** 
+  15:Core/Src/board.c **** extern I2C_HandleTypeDef hi2c1;
+  16:Core/Src/board.c **** 
+  17:Core/Src/board.c **** #if defined(UART_DEBUG) && !defined(UART_DEBUG_GPIO)
+  18:Core/Src/board.c **** extern UART_HandleTypeDef huart1;
+  19:Core/Src/board.c **** #endif
+  20:Core/Src/board.c **** 
+  21:Core/Src/board.c **** #if !defined(FIXED_SKUID) || (SKUID == SKUID_1)
+  22:Core/Src/board.c **** extern ADC_HandleTypeDef hadc;
+  23:Core/Src/board.c **** #endif
+  24:Core/Src/board.c **** 
+  25:Core/Src/board.c **** 
+  26:Core/Src/board.c **** /******************************************************************************/
+  27:Core/Src/board.c **** /* UART Debug  */
+  28:Core/Src/board.c **** 
+  29:Core/Src/board.c **** #if defined(__GNUC__) && defined(UART_DEBUG) && !defined(UART_DEBUG_GPIO)
+  30:Core/Src/board.c **** int _write(int fd, char * ptr, int len)
+  31:Core/Src/board.c **** {
+ARM GAS  /tmp/ccjV0RBx.s 			page 2
+
+
+  32:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *) ptr, len, HAL_MAX_DELAY);
+  33:Core/Src/board.c ****   return len;
+  34:Core/Src/board.c **** }
+  35:Core/Src/board.c **** #elif defined(__GNUC__) && defined(UART_DEBUG) && defined(UART_DEBUG_GPIO)
+  36:Core/Src/board.c **** int _write(int fd, char * ptr, int len)
+  37:Core/Src/board.c **** {
+  28              		.loc 1 37 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0800     		movs	r0, r1
+  39              	.LVL1:
+  40 0004 1400     		movs	r4, r2
+  38:Core/Src/board.c ****   GPIO_UART_Transmit((uint8_t *) ptr, len);
+  41              		.loc 1 38 0
+  42 0006 1100     		movs	r1, r2
+  43              	.LVL2:
+  44 0008 FFF7FEFF 		bl	GPIO_UART_Transmit
+  45              	.LVL3:
+  39:Core/Src/board.c ****   return len;
+  40:Core/Src/board.c **** }
+  46              		.loc 1 40 0
+  47 000c 2000     		movs	r0, r4
+  48              		@ sp needed
+  49              	.LVL4:
+  50 000e 10BD     		pop	{r4, pc}
+  51              		.cfi_endproc
+  52              	.LFE41:
+  54              		.section	.text.BOARD_get_sku,"ax",%progbits
+  55              		.align	2
+  56              		.global	BOARD_get_sku
+  57              		.code	16
+  58              		.thumb_func
+  60              	BOARD_get_sku:
+  61              	.LFB42:
+  41:Core/Src/board.c **** #elif defined (__ICCARM__) && defined(UART_DEBUG)
+  42:Core/Src/board.c **** #include "LowLevelIOInterface.h"
+  43:Core/Src/board.c **** size_t __write(int handle, const unsigned char * buffer, size_t size)
+  44:Core/Src/board.c **** {
+  45:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *) buffer, size, HAL_MAX_DELAY);
+  46:Core/Src/board.c ****   return size;
+  47:Core/Src/board.c **** }
+  48:Core/Src/board.c **** #elif defined (__CC_ARM) && defined(UART_DEBUG)
+  49:Core/Src/board.c **** int fputc(int ch, FILE *f)
+  50:Core/Src/board.c **** {
+  51:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+  52:Core/Src/board.c ****   return ch;
+  53:Core/Src/board.c **** }
+  54:Core/Src/board.c **** #endif
+  55:Core/Src/board.c **** 
+  56:Core/Src/board.c **** /******************************************************************************/
+ARM GAS  /tmp/ccjV0RBx.s 			page 3
+
+
+  57:Core/Src/board.c **** /* ADC  */
+  58:Core/Src/board.c **** 
+  59:Core/Src/board.c **** #if !defined(FIXED_SKUID) || (SKUID == SKUID_1)
+  60:Core/Src/board.c **** 
+  61:Core/Src/board.c **** uint32_t ADC_Value[ADC_CH_COUNT];
+  62:Core/Src/board.c **** 
+  63:Core/Src/board.c **** const uint32_t adc_channels[] = {
+  64:Core/Src/board.c ****   [ADC_VCSP_L] = ADC_CHANNEL_0,    // GPIO A0
+  65:Core/Src/board.c ****   [ADC_VCSN_L] = ADC_CHANNEL_1,    // GPIO A1
+  66:Core/Src/board.c ****   [ADC_VBUS]   = ADC_CHANNEL_4,    // GPIO A4
+  67:Core/Src/board.c **** };
+  68:Core/Src/board.c **** 
+  69:Core/Src/board.c **** /**
+  70:Core/Src/board.c ****  * ADC value correction
+  71:Core/Src/board.c ****  */
+  72:Core/Src/board.c **** /*
+  73:Core/Src/board.c **** const adc_correction correction_table[] = {
+  74:Core/Src/board.c ****   [ADC_VCSP_L] = { 1000, 0},   // ADC channel 0
+  75:Core/Src/board.c ****   [ADC_VCSN_L] = { 1000, 0},   // ADC channel 1
+  76:Core/Src/board.c ****   [ADC_VBUS]   = { 1000, 0},   // ADC channel 4
+  77:Core/Src/board.c **** };
+  78:Core/Src/board.c **** 
+  79:Core/Src/board.c **** void correction_adc_ch(enum adc_channel ch) {
+  80:Core/Src/board.c **** 
+  81:Core/Src/board.c ****   // y = a * x + b 
+  82:Core/Src/board.c ****   ADC_Value[ch] = correction_table[ch].a * ADC_Value[ch] + correction_table[ch].b;
+  83:Core/Src/board.c ****   ADC_Value[ch] = ADC_Value[ch] / 1000;
+  84:Core/Src/board.c **** 
+  85:Core/Src/board.c **** }
+  86:Core/Src/board.c **** 
+  87:Core/Src/board.c **** void correction_adc_all(void) {
+  88:Core/Src/board.c **** 
+  89:Core/Src/board.c ****   // correction all ADC_Value[] value
+  90:Core/Src/board.c ****   for(int i = 0; i < ADC_CH_COUNT; i++) {
+  91:Core/Src/board.c ****     correction_adc_ch(i);
+  92:Core/Src/board.c ****   }
+  93:Core/Src/board.c **** }
+  94:Core/Src/board.c **** */
+  95:Core/Src/board.c **** 
+  96:Core/Src/board.c **** ADC_ChannelConfTypeDef sConfig = {0};
+  97:Core/Src/board.c **** 
+  98:Core/Src/board.c **** void ADC_Select_Channel(const uint32_t ch) {
+  99:Core/Src/board.c **** 
+ 100:Core/Src/board.c ****   sConfig.Channel = ch;
+ 101:Core/Src/board.c ****   sConfig.Rank = 1;
+ 102:Core/Src/board.c ****   sConfig.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+ 103:Core/Src/board.c **** 
+ 104:Core/Src/board.c ****   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK) {
+ 105:Core/Src/board.c ****     Error_Handler();
+ 106:Core/Src/board.c ****   }
+ 107:Core/Src/board.c **** }
+ 108:Core/Src/board.c **** 
+ 109:Core/Src/board.c **** void read_adc_ch(enum adc_channel ch) {
+ 110:Core/Src/board.c **** 
+ 111:Core/Src/board.c ****   ADC_Select_Channel(adc_channels[ch]);
+ 112:Core/Src/board.c ****   HAL_ADC_Start(&hadc);
+ 113:Core/Src/board.c ****   HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+ARM GAS  /tmp/ccjV0RBx.s 			page 4
+
+
+ 114:Core/Src/board.c ****   ADC_Value[ch] = HAL_ADC_GetValue(&hadc);
+ 115:Core/Src/board.c ****   HAL_ADC_Stop(&hadc);
+ 116:Core/Src/board.c **** }
+ 117:Core/Src/board.c **** /*
+ 118:Core/Src/board.c **** void read_adc_all(void) {
+ 119:Core/Src/board.c **** 
+ 120:Core/Src/board.c ****   // read all adc channel and update to ADC_Value[]
+ 121:Core/Src/board.c ****   for(int i = 0; i < ADC_CH_COUNT; i++) {
+ 122:Core/Src/board.c ****     read_adc_ch(i);
+ 123:Core/Src/board.c ****   }
+ 124:Core/Src/board.c ****   correction_adc_all();
+ 125:Core/Src/board.c **** }
+ 126:Core/Src/board.c **** */
+ 127:Core/Src/board.c **** 
+ 128:Core/Src/board.c **** #endif
+ 129:Core/Src/board.c **** 
+ 130:Core/Src/board.c **** /******************************************************************************/
+ 131:Core/Src/board.c **** /* SKU ID and BOARD ID */
+ 132:Core/Src/board.c **** 
+ 133:Core/Src/board.c **** #ifdef FIXED_SKUID
+ 134:Core/Src/board.c **** int BOARD_get_sku() {
+  62              		.loc 1 134 0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66              		@ link register save eliminated.
+ 135:Core/Src/board.c ****   return SKUID;
+ 136:Core/Src/board.c **** }
+  67              		.loc 1 136 0
+  68 0000 0220     		movs	r0, #2
+  69              		@ sp needed
+  70 0002 7047     		bx	lr
+  71              		.cfi_endproc
+  72              	.LFE42:
+  74              		.section	.text.sku_Init,"ax",%progbits
+  75              		.align	2
+  76              		.global	sku_Init
+  77              		.code	16
+  78              		.thumb_func
+  80              	sku_Init:
+  81              	.LFB43:
+ 137:Core/Src/board.c **** #else
+ 138:Core/Src/board.c **** int BOARD_get_sku() {
+ 139:Core/Src/board.c **** 
+ 140:Core/Src/board.c **** #ifdef BOARD_ID_2BIT
+ 141:Core/Src/board.c ****   // support 2 bit board id
+ 142:Core/Src/board.c ****   return (HAL_GPIO_ReadPin(BOARD_ID_0_GPIO_Port, BOARD_ID_0_Pin) |
+ 143:Core/Src/board.c ****         (HAL_GPIO_ReadPin(BOARD_ID_1_GPIO_Port, BOARD_ID_1_Pin) << 1)) +1;
+ 144:Core/Src/board.c **** #else
+ 145:Core/Src/board.c ****   return HAL_GPIO_ReadPin(BOARD_ID_0_GPIO_Port, BOARD_ID_0_Pin) +1;
+ 146:Core/Src/board.c **** #endif /* BOARD_ID_2BIT */
+ 147:Core/Src/board.c **** }
+ 148:Core/Src/board.c **** #endif /* FIXED_SKUID */
+ 149:Core/Src/board.c **** 
+ 150:Core/Src/board.c **** void sku_Init() {
+  82              		.loc 1 150 0
+  83              		.cfi_startproc
+ARM GAS  /tmp/ccjV0RBx.s 			page 5
+
+
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86 0000 10B5     		push	{r4, lr}
+  87              	.LCFI1:
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 4, -8
+  90              		.cfi_offset 14, -4
+ 151:Core/Src/board.c ****   PRINTF("sku: %d\r\n", BOARD_get_sku());
+  91              		.loc 1 151 0
+  92 0002 FFF7FEFF 		bl	BOARD_get_sku
+  93              	.LVL5:
+  94 0006 0100     		movs	r1, r0
+  95 0008 0148     		ldr	r0, .L4
+  96 000a FFF7FEFF 		bl	printf
+  97              	.LVL6:
+ 152:Core/Src/board.c **** }
+  98              		.loc 1 152 0
+  99              		@ sp needed
+ 100 000e 10BD     		pop	{r4, pc}
+ 101              	.L5:
+ 102              		.align	2
+ 103              	.L4:
+ 104 0010 00000000 		.word	.LC0
+ 105              		.cfi_endproc
+ 106              	.LFE43:
+ 108              		.section	.text.i2c_scan,"ax",%progbits
+ 109              		.align	2
+ 110              		.global	i2c_scan
+ 111              		.code	16
+ 112              		.thumb_func
+ 114              	i2c_scan:
+ 115              	.LFB44:
+ 153:Core/Src/board.c **** 
+ 154:Core/Src/board.c **** 
+ 155:Core/Src/board.c **** /******************************************************************************/
+ 156:Core/Src/board.c **** /* I2C Scan function */
+ 157:Core/Src/board.c **** 
+ 158:Core/Src/board.c **** /**
+ 159:Core/Src/board.c ****  * scan 0x00 ~ 0x7f (0~127) 
+ 160:Core/Src/board.c ****  * retries: 2 times
+ 161:Core/Src/board.c ****  * timeout: 10 mS
+ 162:Core/Src/board.c ****  */
+ 163:Core/Src/board.c **** 
+ 164:Core/Src/board.c **** #ifdef I2C_SCAN
+ 165:Core/Src/board.c **** 
+ 166:Core/Src/board.c **** #define I2C_SCAN_TIMEOUT_MS 10
+ 167:Core/Src/board.c **** #define I2C_SCAN_RETRIES 2
+ 168:Core/Src/board.c **** 
+ 169:Core/Src/board.c **** void i2c_scan() {
+ 116              		.loc 1 169 0
+ 117              		.cfi_startproc
+ 118              		@ args = 0, pretend = 0, frame = 0
+ 119              		@ frame_needed = 0, uses_anonymous_args = 0
+ 120 0000 10B5     		push	{r4, lr}
+ 121              	.LCFI2:
+ 122              		.cfi_def_cfa_offset 8
+ 123              		.cfi_offset 4, -8
+ARM GAS  /tmp/ccjV0RBx.s 			page 6
+
+
+ 124              		.cfi_offset 14, -4
+ 170:Core/Src/board.c ****   
+ 171:Core/Src/board.c ****   uint8_t i, re;
+ 172:Core/Src/board.c **** 
+ 173:Core/Src/board.c ****  	PRINTF("\r\nScanning I2C bus:\r\n");
+ 125              		.loc 1 173 0
+ 126 0002 0F48     		ldr	r0, .L11
+ 127 0004 FFF7FEFF 		bl	puts
+ 128              	.LVL7:
+ 174:Core/Src/board.c **** 
+ 175:Core/Src/board.c ****  	for (i = 1; i < 128; i++) {
+ 129              		.loc 1 175 0
+ 130 0008 0124     		movs	r4, #1
+ 131 000a 11E0     		b	.L7
+ 132              	.LVL8:
+ 133              	.L10:
+ 176:Core/Src/board.c **** 
+ 177:Core/Src/board.c ****  	  re = HAL_I2C_IsDeviceReady(&hi2c1, (i << 1),
+ 134              		.loc 1 177 0
+ 135 000c 6100     		lsls	r1, r4, #1
+ 136 000e 0A23     		movs	r3, #10
+ 137 0010 0222     		movs	r2, #2
+ 138 0012 0C48     		ldr	r0, .L11+4
+ 139 0014 FFF7FEFF 		bl	HAL_I2C_IsDeviceReady
+ 140              	.LVL9:
+ 178:Core/Src/board.c ****             I2C_SCAN_RETRIES, I2C_SCAN_TIMEOUT_MS);
+ 179:Core/Src/board.c **** 
+ 180:Core/Src/board.c ****  	  if (re == HAL_OK) {
+ 141              		.loc 1 180 0
+ 142 0018 0028     		cmp	r0, #0
+ 143 001a 04D1     		bne	.L8
+ 181:Core/Src/board.c ****       // received ACK
+ 182:Core/Src/board.c ****  		  PRINTF("\r\n0x%02X\r\n", i); 
+ 144              		.loc 1 182 0
+ 145 001c 2100     		movs	r1, r4
+ 146 001e 0A48     		ldr	r0, .L11+8
+ 147              	.LVL10:
+ 148 0020 FFF7FEFF 		bl	printf
+ 149              	.LVL11:
+ 183:Core/Src/board.c ****       continue;
+ 150              		.loc 1 183 0
+ 151 0024 02E0     		b	.L9
+ 152              	.LVL12:
+ 153              	.L8:
+ 184:Core/Src/board.c ****  	  }
+ 185:Core/Src/board.c **** 
+ 186:Core/Src/board.c ****     // No ACK received at that address
+ 187:Core/Src/board.c ****  		PRINTF(".");
+ 154              		.loc 1 187 0
+ 155 0026 2E20     		movs	r0, #46
+ 156              	.LVL13:
+ 157 0028 FFF7FEFF 		bl	putchar
+ 158              	.LVL14:
+ 159              	.L9:
+ 175:Core/Src/board.c **** 
+ 160              		.loc 1 175 0 discriminator 2
+ 161 002c 0134     		adds	r4, r4, #1
+ARM GAS  /tmp/ccjV0RBx.s 			page 7
+
+
+ 162              	.LVL15:
+ 163 002e E4B2     		uxtb	r4, r4
+ 164              	.LVL16:
+ 165              	.L7:
+ 175:Core/Src/board.c **** 
+ 166              		.loc 1 175 0 is_stmt 0 discriminator 1
+ 167 0030 63B2     		sxtb	r3, r4
+ 168 0032 002B     		cmp	r3, #0
+ 169 0034 EADA     		bge	.L10
+ 188:Core/Src/board.c ****  	}
+ 189:Core/Src/board.c ****  	PRINTF("\r\n");
+ 170              		.loc 1 189 0 is_stmt 1
+ 171 0036 0548     		ldr	r0, .L11+12
+ 172 0038 FFF7FEFF 		bl	puts
+ 173              	.LVL17:
+ 190:Core/Src/board.c **** }
+ 174              		.loc 1 190 0
+ 175              		@ sp needed
+ 176              	.LVL18:
+ 177 003c 10BD     		pop	{r4, pc}
+ 178              	.L12:
+ 179 003e C046     		.align	2
+ 180              	.L11:
+ 181 0040 0C000000 		.word	.LC2
+ 182 0044 00000000 		.word	hi2c1
+ 183 0048 24000000 		.word	.LC5
+ 184 004c 30000000 		.word	.LC7
+ 185              		.cfi_endproc
+ 186              	.LFE44:
+ 188              		.global	__aeabi_idiv
+ 189              		.global	__aeabi_idivmod
+ 190              		.section	.text.ssd1306_show,"ax",%progbits
+ 191              		.align	2
+ 192              		.global	ssd1306_show
+ 193              		.code	16
+ 194              		.thumb_func
+ 196              	ssd1306_show:
+ 197              	.LFB45:
+ 191:Core/Src/board.c **** 
+ 192:Core/Src/board.c **** #endif /* I2C_SCAN */
+ 193:Core/Src/board.c **** 
+ 194:Core/Src/board.c **** 
+ 195:Core/Src/board.c **** /******************************************************************************/
+ 196:Core/Src/board.c **** /* OLED SSD1306 */
+ 197:Core/Src/board.c **** 
+ 198:Core/Src/board.c **** #ifdef SSD1306_OLED
+ 199:Core/Src/board.c **** 
+ 200:Core/Src/board.c **** #define BUFF_SIZE 10
+ 201:Core/Src/board.c **** 
+ 202:Core/Src/board.c **** #define Y_OFFSET_LINE_0 0
+ 203:Core/Src/board.c **** #define Y_OFFSET_LINE_1 18
+ 204:Core/Src/board.c **** #define Y_OFFSET_LINE_2 36
+ 205:Core/Src/board.c **** 
+ 206:Core/Src/board.c **** static char line_1_str[BUFF_SIZE] = "V 20000 mV";
+ 207:Core/Src/board.c **** static char line_2_str[BUFF_SIZE] = "I  5000 mA";
+ 208:Core/Src/board.c **** static char line_3_str[BUFF_SIZE] = "P 99.9W =>";
+ 209:Core/Src/board.c **** 
+ARM GAS  /tmp/ccjV0RBx.s 			page 8
+
+
+ 210:Core/Src/board.c **** void ssd1306_show(int volt, int curr, int watt) {
+ 198              		.loc 1 210 0
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202              	.LVL19:
+ 203 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 204              	.LCFI3:
+ 205              		.cfi_def_cfa_offset 24
+ 206              		.cfi_offset 3, -24
+ 207              		.cfi_offset 4, -20
+ 208              		.cfi_offset 5, -16
+ 209              		.cfi_offset 6, -12
+ 210              		.cfi_offset 7, -8
+ 211              		.cfi_offset 14, -4
+ 212 0002 0400     		movs	r4, r0
+ 213 0004 0E00     		movs	r6, r1
+ 214 0006 1700     		movs	r7, r2
+ 211:Core/Src/board.c **** 
+ 212:Core/Src/board.c ****   if (volt < 0) {
+ 215              		.loc 1 212 0
+ 216 0008 0028     		cmp	r0, #0
+ 217 000a 05DA     		bge	.L14
+ 213:Core/Src/board.c ****     line_3_str[8] = '<';
+ 218              		.loc 1 213 0
+ 219 000c 684B     		ldr	r3, .L29
+ 220 000e 3C22     		movs	r2, #60
+ 221              	.LVL20:
+ 222 0010 1A72     		strb	r2, [r3, #8]
+ 214:Core/Src/board.c ****     line_3_str[9] = '=';
+ 223              		.loc 1 214 0
+ 224 0012 0132     		adds	r2, r2, #1
+ 225 0014 5A72     		strb	r2, [r3, #9]
+ 226 0016 04E0     		b	.L15
+ 227              	.LVL21:
+ 228              	.L14:
+ 215:Core/Src/board.c ****   } else {
+ 216:Core/Src/board.c ****     line_3_str[8] = '=';
+ 229              		.loc 1 216 0
+ 230 0018 654B     		ldr	r3, .L29
+ 231 001a 3D22     		movs	r2, #61
+ 232              	.LVL22:
+ 233 001c 1A72     		strb	r2, [r3, #8]
+ 217:Core/Src/board.c ****     line_3_str[9] = '>';
+ 234              		.loc 1 217 0
+ 235 001e 0132     		adds	r2, r2, #1
+ 236 0020 5A72     		strb	r2, [r3, #9]
+ 237              	.L15:
+ 218:Core/Src/board.c ****   }
+ 219:Core/Src/board.c **** 
+ 220:Core/Src/board.c ****   // 20001 mV => in line_1_str[2:6] show '20001'
+ 221:Core/Src/board.c ****   line_1_str[2] = (char) (MIN(volt / 10000, 2) + 48);
+ 238              		.loc 1 221 0
+ 239 0022 644B     		ldr	r3, .L29+4
+ 240 0024 9C42     		cmp	r4, r3
+ 241 0026 06DC     		bgt	.L25
+ 242              		.loc 1 221 0 is_stmt 0 discriminator 1
+ARM GAS  /tmp/ccjV0RBx.s 			page 9
+
+
+ 243 0028 6349     		ldr	r1, .L29+8
+ 244              	.LVL23:
+ 245 002a 2000     		movs	r0, r4
+ 246              	.LVL24:
+ 247 002c FFF7FEFF 		bl	__aeabi_idiv
+ 248              	.LVL25:
+ 249 0030 3030     		adds	r0, r0, #48
+ 250 0032 C0B2     		uxtb	r0, r0
+ 251 0034 00E0     		b	.L16
+ 252              	.LVL26:
+ 253              	.L25:
+ 254              		.loc 1 221 0
+ 255 0036 3220     		movs	r0, #50
+ 256              	.LVL27:
+ 257              	.L16:
+ 258              		.loc 1 221 0 discriminator 4
+ 259 0038 604D     		ldr	r5, .L29+12
+ 260 003a A870     		strb	r0, [r5, #2]
+ 222:Core/Src/board.c ****   line_1_str[3] = (char) (volt % 10000 / 1000 + 48);
+ 261              		.loc 1 222 0 is_stmt 1 discriminator 4
+ 262 003c 5E49     		ldr	r1, .L29+8
+ 263 003e 2000     		movs	r0, r4
+ 264 0040 FFF7FEFF 		bl	__aeabi_idivmod
+ 265              	.LVL28:
+ 266 0044 0800     		movs	r0, r1
+ 267 0046 FA21     		movs	r1, #250
+ 268 0048 8900     		lsls	r1, r1, #2
+ 269 004a FFF7FEFF 		bl	__aeabi_idiv
+ 270              	.LVL29:
+ 271 004e 3030     		adds	r0, r0, #48
+ 272 0050 E870     		strb	r0, [r5, #3]
+ 223:Core/Src/board.c ****   line_1_str[4] = (char) (volt % 1000 / 100 + 48);
+ 273              		.loc 1 223 0 discriminator 4
+ 274 0052 FA21     		movs	r1, #250
+ 275 0054 8900     		lsls	r1, r1, #2
+ 276 0056 2000     		movs	r0, r4
+ 277 0058 FFF7FEFF 		bl	__aeabi_idivmod
+ 278              	.LVL30:
+ 279 005c 0800     		movs	r0, r1
+ 280 005e 6421     		movs	r1, #100
+ 281 0060 FFF7FEFF 		bl	__aeabi_idiv
+ 282              	.LVL31:
+ 283 0064 3030     		adds	r0, r0, #48
+ 284 0066 2871     		strb	r0, [r5, #4]
+ 224:Core/Src/board.c ****   line_1_str[5] = (char) (volt % 100 /10 + 48);
+ 285              		.loc 1 224 0 discriminator 4
+ 286 0068 6421     		movs	r1, #100
+ 287 006a 2000     		movs	r0, r4
+ 288 006c FFF7FEFF 		bl	__aeabi_idivmod
+ 289              	.LVL32:
+ 290 0070 0800     		movs	r0, r1
+ 291 0072 0A21     		movs	r1, #10
+ 292 0074 FFF7FEFF 		bl	__aeabi_idiv
+ 293              	.LVL33:
+ 294 0078 3030     		adds	r0, r0, #48
+ 295 007a 6871     		strb	r0, [r5, #5]
+ 225:Core/Src/board.c ****   line_1_str[6] = (char) (volt % 10 + 48);
+ARM GAS  /tmp/ccjV0RBx.s 			page 10
+
+
+ 296              		.loc 1 225 0 discriminator 4
+ 297 007c 0A21     		movs	r1, #10
+ 298 007e 2000     		movs	r0, r4
+ 299 0080 FFF7FEFF 		bl	__aeabi_idivmod
+ 300              	.LVL34:
+ 301 0084 3031     		adds	r1, r1, #48
+ 302 0086 A971     		strb	r1, [r5, #6]
+ 226:Core/Src/board.c ****   
+ 227:Core/Src/board.c ****   // 2101 mA => in line_2_str[2:6] show ' 2101'
+ 228:Core/Src/board.c ****   line_2_str[3] = (char) (MIN(curr / 1000, 5) + 48);
+ 303              		.loc 1 228 0 discriminator 4
+ 304 0088 4D4B     		ldr	r3, .L29+16
+ 305 008a 9E42     		cmp	r6, r3
+ 306 008c 07DC     		bgt	.L26
+ 307              		.loc 1 228 0 is_stmt 0 discriminator 1
+ 308 008e FA21     		movs	r1, #250
+ 309 0090 8900     		lsls	r1, r1, #2
+ 310 0092 3000     		movs	r0, r6
+ 311 0094 FFF7FEFF 		bl	__aeabi_idiv
+ 312              	.LVL35:
+ 313 0098 3030     		adds	r0, r0, #48
+ 314 009a C0B2     		uxtb	r0, r0
+ 315 009c 00E0     		b	.L17
+ 316              	.L26:
+ 317              		.loc 1 228 0
+ 318 009e 3520     		movs	r0, #53
+ 319              	.L17:
+ 320              		.loc 1 228 0 discriminator 4
+ 321 00a0 484C     		ldr	r4, .L29+20
+ 322              	.LVL36:
+ 323 00a2 E070     		strb	r0, [r4, #3]
+ 229:Core/Src/board.c ****   line_2_str[4] = (char) (curr % 1000 / 100 + 48);
+ 324              		.loc 1 229 0 is_stmt 1 discriminator 4
+ 325 00a4 FA21     		movs	r1, #250
+ 326 00a6 8900     		lsls	r1, r1, #2
+ 327 00a8 3000     		movs	r0, r6
+ 328 00aa FFF7FEFF 		bl	__aeabi_idivmod
+ 329              	.LVL37:
+ 330 00ae 0800     		movs	r0, r1
+ 331 00b0 6421     		movs	r1, #100
+ 332 00b2 FFF7FEFF 		bl	__aeabi_idiv
+ 333              	.LVL38:
+ 334 00b6 3030     		adds	r0, r0, #48
+ 335 00b8 2071     		strb	r0, [r4, #4]
+ 230:Core/Src/board.c ****   line_2_str[5] = (char) (curr % 100 / 10 + 48);
+ 336              		.loc 1 230 0 discriminator 4
+ 337 00ba 6421     		movs	r1, #100
+ 338 00bc 3000     		movs	r0, r6
+ 339 00be FFF7FEFF 		bl	__aeabi_idivmod
+ 340              	.LVL39:
+ 341 00c2 0800     		movs	r0, r1
+ 342 00c4 0A21     		movs	r1, #10
+ 343 00c6 FFF7FEFF 		bl	__aeabi_idiv
+ 344              	.LVL40:
+ 345 00ca 3030     		adds	r0, r0, #48
+ 346 00cc 6071     		strb	r0, [r4, #5]
+ 231:Core/Src/board.c ****   line_2_str[6] = (char) (curr % 10 + 48);
+ARM GAS  /tmp/ccjV0RBx.s 			page 11
+
+
+ 347              		.loc 1 231 0 discriminator 4
+ 348 00ce 0A21     		movs	r1, #10
+ 349 00d0 3000     		movs	r0, r6
+ 350 00d2 FFF7FEFF 		bl	__aeabi_idivmod
+ 351              	.LVL41:
+ 352 00d6 3031     		adds	r1, r1, #48
+ 353 00d8 A171     		strb	r1, [r4, #6]
+ 232:Core/Src/board.c ****   
+ 233:Core/Src/board.c ****   // 14980 mW => in line_2_str[2:5] show 14.98 W
+ 234:Core/Src/board.c ****   line_3_str[2] = (char) (watt / 10000 + 48);
+ 354              		.loc 1 234 0 discriminator 4
+ 355 00da 3749     		ldr	r1, .L29+8
+ 356 00dc 3800     		movs	r0, r7
+ 357 00de FFF7FEFF 		bl	__aeabi_idiv
+ 358              	.LVL42:
+ 359 00e2 3030     		adds	r0, r0, #48
+ 360 00e4 324C     		ldr	r4, .L29
+ 361 00e6 A070     		strb	r0, [r4, #2]
+ 235:Core/Src/board.c ****   line_3_str[3] = (char) (watt % 10000 / 1000 + 48);
+ 362              		.loc 1 235 0 discriminator 4
+ 363 00e8 3349     		ldr	r1, .L29+8
+ 364 00ea 3800     		movs	r0, r7
+ 365 00ec FFF7FEFF 		bl	__aeabi_idivmod
+ 366              	.LVL43:
+ 367 00f0 0800     		movs	r0, r1
+ 368 00f2 FA21     		movs	r1, #250
+ 369 00f4 8900     		lsls	r1, r1, #2
+ 370 00f6 FFF7FEFF 		bl	__aeabi_idiv
+ 371              	.LVL44:
+ 372 00fa 3030     		adds	r0, r0, #48
+ 373 00fc E070     		strb	r0, [r4, #3]
+ 236:Core/Src/board.c ****   line_3_str[5] = (char) (watt % 1000 / 100 + 48);
+ 374              		.loc 1 236 0 discriminator 4
+ 375 00fe FA21     		movs	r1, #250
+ 376 0100 8900     		lsls	r1, r1, #2
+ 377 0102 3800     		movs	r0, r7
+ 378 0104 FFF7FEFF 		bl	__aeabi_idivmod
+ 379              	.LVL45:
+ 380 0108 0800     		movs	r0, r1
+ 381 010a 6421     		movs	r1, #100
+ 382 010c FFF7FEFF 		bl	__aeabi_idiv
+ 383              	.LVL46:
+ 384 0110 3030     		adds	r0, r0, #48
+ 385 0112 6071     		strb	r0, [r4, #5]
+ 386              	.LVL47:
+ 387              	.LBB2:
+ 237:Core/Src/board.c ****   //line_3_str[6] = (char) (MIN(watt % 100 /10, 9) + 48);
+ 238:Core/Src/board.c **** 
+ 239:Core/Src/board.c **** 
+ 240:Core/Src/board.c ****   /* cut 0 in herder on each number*/
+ 241:Core/Src/board.c ****   for (int i = 2; i < 6; i++) {
+ 388              		.loc 1 241 0 discriminator 4
+ 389 0114 0223     		movs	r3, #2
+ 390 0116 07E0     		b	.L18
+ 391              	.LVL48:
+ 392              	.L20:
+ 242:Core/Src/board.c ****     if (line_1_str[i] == '0')
+ARM GAS  /tmp/ccjV0RBx.s 			page 12
+
+
+ 393              		.loc 1 242 0
+ 394 0118 284A     		ldr	r2, .L29+12
+ 395 011a D25C     		ldrb	r2, [r2, r3]
+ 396 011c 302A     		cmp	r2, #48
+ 397 011e 10D1     		bne	.L27
+ 243:Core/Src/board.c ****       line_1_str[i] = ' ';
+ 398              		.loc 1 243 0 discriminator 2
+ 399 0120 2021     		movs	r1, #32
+ 400 0122 264A     		ldr	r2, .L29+12
+ 401 0124 D154     		strb	r1, [r2, r3]
+ 241:Core/Src/board.c ****     if (line_1_str[i] == '0')
+ 402              		.loc 1 241 0 discriminator 2
+ 403 0126 0133     		adds	r3, r3, #1
+ 404              	.LVL49:
+ 405              	.L18:
+ 241:Core/Src/board.c ****     if (line_1_str[i] == '0')
+ 406              		.loc 1 241 0 is_stmt 0 discriminator 1
+ 407 0128 052B     		cmp	r3, #5
+ 408 012a F5DD     		ble	.L20
+ 409 012c 0323     		movs	r3, #3
+ 410              	.LVL50:
+ 411 012e 09E0     		b	.L19
+ 412              	.LVL51:
+ 413              	.L22:
+ 414              	.LBE2:
+ 415              	.LBB3:
+ 244:Core/Src/board.c ****     else
+ 245:Core/Src/board.c ****       break;
+ 246:Core/Src/board.c ****   }
+ 247:Core/Src/board.c ****   /* cut 0 in herder on each number*/
+ 248:Core/Src/board.c ****   for (int i = 3; i < 6; i++) {
+ 249:Core/Src/board.c ****     if (line_2_str[i] == '0')
+ 416              		.loc 1 249 0 is_stmt 1
+ 417 0130 244A     		ldr	r2, .L29+20
+ 418 0132 D25C     		ldrb	r2, [r2, r3]
+ 419 0134 302A     		cmp	r2, #48
+ 420 0136 12D1     		bne	.L28
+ 250:Core/Src/board.c ****       line_2_str[i] = ' ';
+ 421              		.loc 1 250 0 discriminator 2
+ 422 0138 2021     		movs	r1, #32
+ 423 013a 224A     		ldr	r2, .L29+20
+ 424 013c D154     		strb	r1, [r2, r3]
+ 248:Core/Src/board.c ****     if (line_2_str[i] == '0')
+ 425              		.loc 1 248 0 discriminator 2
+ 426 013e 0133     		adds	r3, r3, #1
+ 427              	.LVL52:
+ 428 0140 00E0     		b	.L19
+ 429              	.LVL53:
+ 430              	.L27:
+ 431              	.LBE3:
+ 432              	.LBB4:
+ 433 0142 0323     		movs	r3, #3
+ 434              	.LVL54:
+ 435              	.L19:
+ 436              	.LBE4:
+ 437              	.LBB5:
+ 248:Core/Src/board.c ****     if (line_2_str[i] == '0')
+ARM GAS  /tmp/ccjV0RBx.s 			page 13
+
+
+ 438              		.loc 1 248 0 is_stmt 0 discriminator 1
+ 439 0144 052B     		cmp	r3, #5
+ 440 0146 F3DD     		ble	.L22
+ 441 0148 0223     		movs	r3, #2
+ 442              	.LVL55:
+ 443 014a 09E0     		b	.L21
+ 444              	.LVL56:
+ 445              	.L24:
+ 446              	.LBE5:
+ 447              	.LBB6:
+ 251:Core/Src/board.c ****     else
+ 252:Core/Src/board.c ****       break;
+ 253:Core/Src/board.c ****   }
+ 254:Core/Src/board.c ****   /* cut 0 in herder on each number */
+ 255:Core/Src/board.c ****   for (int i = 2; i < 3; i++) {
+ 256:Core/Src/board.c ****     if (line_3_str[i] == '0')
+ 448              		.loc 1 256 0 is_stmt 1
+ 449 014c 184A     		ldr	r2, .L29
+ 450 014e D25C     		ldrb	r2, [r2, r3]
+ 451 0150 302A     		cmp	r2, #48
+ 452 0152 07D1     		bne	.L23
+ 257:Core/Src/board.c ****       line_3_str[i] = ' ';
+ 453              		.loc 1 257 0 discriminator 2
+ 454 0154 2021     		movs	r1, #32
+ 455 0156 164A     		ldr	r2, .L29
+ 456 0158 D154     		strb	r1, [r2, r3]
+ 255:Core/Src/board.c ****     if (line_3_str[i] == '0')
+ 457              		.loc 1 255 0 discriminator 2
+ 458 015a 0133     		adds	r3, r3, #1
+ 459              	.LVL57:
+ 460 015c 00E0     		b	.L21
+ 461              	.LVL58:
+ 462              	.L28:
+ 463              	.LBE6:
+ 464              	.LBB7:
+ 465 015e 0223     		movs	r3, #2
+ 466              	.LVL59:
+ 467              	.L21:
+ 468              	.LBE7:
+ 469              	.LBB8:
+ 255:Core/Src/board.c ****     if (line_3_str[i] == '0')
+ 470              		.loc 1 255 0 is_stmt 0 discriminator 1
+ 471 0160 022B     		cmp	r3, #2
+ 472 0162 F3DD     		ble	.L24
+ 473              	.L23:
+ 474              	.LBE8:
+ 258:Core/Src/board.c ****     else
+ 259:Core/Src/board.c ****       break;
+ 260:Core/Src/board.c ****   }
+ 261:Core/Src/board.c **** 
+ 262:Core/Src/board.c ****   ssd1306_Fill(Black);
+ 475              		.loc 1 262 0 is_stmt 1
+ 476 0164 0020     		movs	r0, #0
+ 477 0166 FFF7FEFF 		bl	ssd1306_Fill
+ 478              	.LVL60:
+ 263:Core/Src/board.c **** 
+ 264:Core/Src/board.c ****   ssd1306_SetCursor(2, Y_OFFSET_LINE_0);
+ARM GAS  /tmp/ccjV0RBx.s 			page 14
+
+
+ 479              		.loc 1 264 0
+ 480 016a 0021     		movs	r1, #0
+ 481 016c 0220     		movs	r0, #2
+ 482 016e FFF7FEFF 		bl	ssd1306_SetCursor
+ 483              	.LVL61:
+ 265:Core/Src/board.c ****   ssd1306_WriteString(&line_1_str[0], Font_11x18_SUPPORT, White);
+ 484              		.loc 1 265 0
+ 485 0172 154C     		ldr	r4, .L29+24
+ 486 0174 0123     		movs	r3, #1
+ 487 0176 2168     		ldr	r1, [r4]
+ 488 0178 6268     		ldr	r2, [r4, #4]
+ 489 017a 1048     		ldr	r0, .L29+12
+ 490 017c FFF7FEFF 		bl	ssd1306_WriteString
+ 491              	.LVL62:
+ 266:Core/Src/board.c **** 
+ 267:Core/Src/board.c ****   ssd1306_SetCursor(2, Y_OFFSET_LINE_1);
+ 492              		.loc 1 267 0
+ 493 0180 1221     		movs	r1, #18
+ 494 0182 0220     		movs	r0, #2
+ 495 0184 FFF7FEFF 		bl	ssd1306_SetCursor
+ 496              	.LVL63:
+ 268:Core/Src/board.c ****   ssd1306_WriteString(&line_2_str[0], Font_11x18_SUPPORT, White);
+ 497              		.loc 1 268 0
+ 498 0188 0123     		movs	r3, #1
+ 499 018a 2168     		ldr	r1, [r4]
+ 500 018c 6268     		ldr	r2, [r4, #4]
+ 501 018e 0D48     		ldr	r0, .L29+20
+ 502 0190 FFF7FEFF 		bl	ssd1306_WriteString
+ 503              	.LVL64:
+ 269:Core/Src/board.c **** 
+ 270:Core/Src/board.c ****   ssd1306_SetCursor(2, Y_OFFSET_LINE_2);
+ 504              		.loc 1 270 0
+ 505 0194 2421     		movs	r1, #36
+ 506 0196 0220     		movs	r0, #2
+ 507 0198 FFF7FEFF 		bl	ssd1306_SetCursor
+ 508              	.LVL65:
+ 271:Core/Src/board.c ****   ssd1306_WriteString(&line_3_str[0], Font_11x18_SUPPORT, White);
+ 509              		.loc 1 271 0
+ 510 019c 0123     		movs	r3, #1
+ 511 019e 2168     		ldr	r1, [r4]
+ 512 01a0 6268     		ldr	r2, [r4, #4]
+ 513 01a2 0348     		ldr	r0, .L29
+ 514 01a4 FFF7FEFF 		bl	ssd1306_WriteString
+ 515              	.LVL66:
+ 272:Core/Src/board.c **** 
+ 273:Core/Src/board.c ****   ssd1306_UpdateScreen();
+ 516              		.loc 1 273 0
+ 517 01a8 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 518              	.LVL67:
+ 274:Core/Src/board.c **** }
+ 519              		.loc 1 274 0
+ 520              		@ sp needed
+ 521              	.LVL68:
+ 522              	.LVL69:
+ 523 01ac F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 524              	.L30:
+ 525 01ae C046     		.align	2
+ARM GAS  /tmp/ccjV0RBx.s 			page 15
+
+
+ 526              	.L29:
+ 527 01b0 00000000 		.word	.LANCHOR0
+ 528 01b4 1F4E0000 		.word	19999
+ 529 01b8 10270000 		.word	10000
+ 530 01bc 00000000 		.word	.LANCHOR1
+ 531 01c0 87130000 		.word	4999
+ 532 01c4 00000000 		.word	.LANCHOR2
+ 533 01c8 00000000 		.word	Font_11x18_SUPPORT
+ 534              		.cfi_endproc
+ 535              	.LFE45:
+ 537              		.section	.text.BOARD_Init,"ax",%progbits
+ 538              		.align	2
+ 539              		.global	BOARD_Init
+ 540              		.code	16
+ 541              		.thumb_func
+ 543              	BOARD_Init:
+ 544              	.LFB46:
+ 275:Core/Src/board.c **** 
+ 276:Core/Src/board.c **** #else
+ 277:Core/Src/board.c **** void ssd1306_show(int volt, int curr, int watt) {return;}
+ 278:Core/Src/board.c **** #endif
+ 279:Core/Src/board.c **** 
+ 280:Core/Src/board.c **** 
+ 281:Core/Src/board.c **** /******************************************************************************/
+ 282:Core/Src/board.c **** /* board init function */
+ 283:Core/Src/board.c **** 
+ 284:Core/Src/board.c **** void BOARD_Init() {
+ 545              		.loc 1 284 0
+ 546              		.cfi_startproc
+ 547              		@ args = 0, pretend = 0, frame = 0
+ 548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549 0000 10B5     		push	{r4, lr}
+ 550              	.LCFI4:
+ 551              		.cfi_def_cfa_offset 8
+ 552              		.cfi_offset 4, -8
+ 553              		.cfi_offset 14, -4
+ 285:Core/Src/board.c **** 
+ 286:Core/Src/board.c **** #ifdef UART_DEBUG_GPIO
+ 287:Core/Src/board.c ****   GPIO_UART_Init();
+ 554              		.loc 1 287 0
+ 555 0002 FFF7FEFF 		bl	GPIO_UART_Init
+ 556              	.LVL70:
+ 288:Core/Src/board.c **** #endif
+ 289:Core/Src/board.c **** 
+ 290:Core/Src/board.c ****   PRINTF("Ver: %s-%s\r\n", VERSION, BUILD_DATE);
+ 557              		.loc 1 290 0
+ 558 0006 104A     		ldr	r2, .L34
+ 559 0008 1049     		ldr	r1, .L34+4
+ 560 000a 1148     		ldr	r0, .L34+8
+ 561 000c FFF7FEFF 		bl	printf
+ 562              	.LVL71:
+ 291:Core/Src/board.c **** 
+ 292:Core/Src/board.c ****   sku_Init();
+ 563              		.loc 1 292 0
+ 564 0010 FFF7FEFF 		bl	sku_Init
+ 565              	.LVL72:
+ 293:Core/Src/board.c **** 
+ARM GAS  /tmp/ccjV0RBx.s 			page 16
+
+
+ 294:Core/Src/board.c **** #ifdef SSD1306_OLED
+ 295:Core/Src/board.c ****   if (ssd1306_Init()) {
+ 566              		.loc 1 295 0
+ 567 0014 FFF7FEFF 		bl	ssd1306_Init
+ 568              	.LVL73:
+ 569 0018 0028     		cmp	r0, #0
+ 570 001a 04D0     		beq	.L32
+ 296:Core/Src/board.c ****     PRINTF("ssd1306 init fail!\r\n");
+ 571              		.loc 1 296 0
+ 572 001c 0D48     		ldr	r0, .L34+12
+ 573 001e FFF7FEFF 		bl	puts
+ 574              	.LVL74:
+ 297:Core/Src/board.c ****     i2c_scan();
+ 575              		.loc 1 297 0
+ 576 0022 FFF7FEFF 		bl	i2c_scan
+ 577              	.LVL75:
+ 578              	.L32:
+ 298:Core/Src/board.c ****     //Error_Handler();
+ 299:Core/Src/board.c ****   }
+ 300:Core/Src/board.c **** #endif
+ 301:Core/Src/board.c **** 
+ 302:Core/Src/board.c **** #if defined(FIXED_SKUID) && (SKUID == SKUID_1)
+ 303:Core/Src/board.c ****   return;
+ 304:Core/Src/board.c **** #else
+ 305:Core/Src/board.c ****   if (BOARD_get_sku() == 1) {
+ 579              		.loc 1 305 0
+ 580 0026 FFF7FEFF 		bl	BOARD_get_sku
+ 581              	.LVL76:
+ 582 002a 0128     		cmp	r0, #1
+ 583 002c 0AD1     		bne	.L31
+ 306:Core/Src/board.c **** 
+ 307:Core/Src/board.c ****     if (!ina3221_init())
+ 584              		.loc 1 307 0
+ 585 002e FFF7FEFF 		bl	ina3221_init
+ 586              	.LVL77:
+ 587 0032 0028     		cmp	r0, #0
+ 588 0034 06D0     		beq	.L31
+ 308:Core/Src/board.c ****       return;
+ 309:Core/Src/board.c ****     PRINTF("ina3221 init fail!\r\n");
+ 589              		.loc 1 309 0
+ 590 0036 0848     		ldr	r0, .L34+16
+ 591 0038 FFF7FEFF 		bl	puts
+ 592              	.LVL78:
+ 310:Core/Src/board.c **** #ifdef I2C_SCAN
+ 311:Core/Src/board.c ****     i2c_scan();
+ 593              		.loc 1 311 0
+ 594 003c FFF7FEFF 		bl	i2c_scan
+ 595              	.LVL79:
+ 312:Core/Src/board.c **** #endif /* I2C_SCAN */
+ 313:Core/Src/board.c ****     Error_Handler();
+ 596              		.loc 1 313 0
+ 597 0040 FFF7FEFF 		bl	Error_Handler
+ 598              	.LVL80:
+ 599              	.L31:
+ 314:Core/Src/board.c ****   }
+ 315:Core/Src/board.c ****   return;
+ 316:Core/Src/board.c **** #endif
+ARM GAS  /tmp/ccjV0RBx.s 			page 17
+
+
+ 317:Core/Src/board.c **** 
+ 318:Core/Src/board.c **** }
+ 600              		.loc 1 318 0
+ 601              		@ sp needed
+ 602 0044 10BD     		pop	{r4, pc}
+ 603              	.L35:
+ 604 0046 C046     		.align	2
+ 605              	.L34:
+ 606 0048 34000000 		.word	.LC13
+ 607 004c 40000000 		.word	.LC15
+ 608 0050 48000000 		.word	.LC17
+ 609 0054 58000000 		.word	.LC19
+ 610 0058 6C000000 		.word	.LC21
+ 611              		.cfi_endproc
+ 612              	.LFE46:
+ 614              		.section	.text.BOARD_Loop,"ax",%progbits
+ 615              		.align	2
+ 616              		.global	BOARD_Loop
+ 617              		.code	16
+ 618              		.thumb_func
+ 620              	BOARD_Loop:
+ 621              	.LFB47:
+ 319:Core/Src/board.c **** 
+ 320:Core/Src/board.c **** /******************************************************************************/
+ 321:Core/Src/board.c **** /* board loop function */
+ 322:Core/Src/board.c **** 
+ 323:Core/Src/board.c **** #ifndef OLED_AUTO_TEST
+ 324:Core/Src/board.c **** void BOARD_Loop() {
+ 622              		.loc 1 324 0
+ 623              		.cfi_startproc
+ 624              		@ args = 0, pretend = 0, frame = 8
+ 625              		@ frame_needed = 0, uses_anonymous_args = 0
+ 626 0000 70B5     		push	{r4, r5, r6, lr}
+ 627              	.LCFI5:
+ 628              		.cfi_def_cfa_offset 16
+ 629              		.cfi_offset 4, -16
+ 630              		.cfi_offset 5, -12
+ 631              		.cfi_offset 6, -8
+ 632              		.cfi_offset 14, -4
+ 633 0002 82B0     		sub	sp, sp, #8
+ 634              	.LCFI6:
+ 635              		.cfi_def_cfa_offset 24
+ 325:Core/Src/board.c **** 
+ 326:Core/Src/board.c ****   int volt = 0, curr = 0, watt = 0;
+ 636              		.loc 1 326 0
+ 637 0004 0023     		movs	r3, #0
+ 638 0006 0193     		str	r3, [sp, #4]
+ 639              	.LVL81:
+ 327:Core/Src/board.c **** 
+ 328:Core/Src/board.c **** #ifdef GPIO_SKUID
+ 329:Core/Src/board.c ****   // sku 1 is use adc to get power info
+ 330:Core/Src/board.c ****   if (BOARD_get_sku() == SKUID_1) {
+ 331:Core/Src/board.c **** #endif
+ 332:Core/Src/board.c **** #if !(defined(FIXED_SKUID) && (SKUID == SKUID_2)) /* if not FIXED INA sku */
+ 333:Core/Src/board.c ****     //read_adc_all();
+ 334:Core/Src/board.c ****     read_adc_ch(ADC_VCSP_L);
+ 335:Core/Src/board.c ****     read_adc_ch(ADC_VCSN_L);
+ARM GAS  /tmp/ccjV0RBx.s 			page 18
+
+
+ 336:Core/Src/board.c ****     read_adc_ch(ADC_VBUS);
+ 337:Core/Src/board.c ****     // Vstep = 20 V / 4096 = 0.004882813 V = 4882 uV
+ 338:Core/Src/board.c ****     // Vbus (mV) = (ADC_Value * 4882) / 1000
+ 339:Core/Src/board.c ****     volt = (ADC_Value[ADC_VBUS] * 4882) / 1000;
+ 340:Core/Src/board.c ****     // Istep =  5 A / 4096 = 0.001220703 A = 1220 uA
+ 341:Core/Src/board.c ****     if (ADC_Value[ADC_VCSP_L] > ADC_Value[ADC_VCSN_L])
+ 342:Core/Src/board.c ****       curr = (ADC_Value[ADC_VCSP_L] * 1220) / 1000; //uA /1000 = mA
+ 343:Core/Src/board.c ****     else
+ 344:Core/Src/board.c ****       curr = ((ADC_Value[ADC_VCSN_L] * 1220) / 1000) * -1;
+ 345:Core/Src/board.c **** 
+ 346:Core/Src/board.c **** #endif
+ 347:Core/Src/board.c **** #ifdef GPIO_SKUID
+ 348:Core/Src/board.c ****   // sku 2 is use INA3221 to get power info
+ 349:Core/Src/board.c ****   } else if (BOARD_get_sku() == SKUID_2) {
+ 350:Core/Src/board.c **** #endif
+ 351:Core/Src/board.c **** #if !(defined(FIXED_SKUID) && (SKUID == SKUID_1))
+ 352:Core/Src/board.c ****     int shunt_volt = 0;
+ 640              		.loc 1 352 0
+ 641 0008 0093     		str	r3, [sp]
+ 353:Core/Src/board.c ****     ina3221_gat_data(1, &shunt_volt, &volt);
+ 642              		.loc 1 353 0
+ 643 000a 01AA     		add	r2, sp, #4
+ 644 000c 6946     		mov	r1, sp
+ 645 000e 0120     		movs	r0, #1
+ 646 0010 FFF7FEFF 		bl	ina3221_gat_data
+ 647              	.LVL82:
+ 354:Core/Src/board.c **** 
+ 355:Core/Src/board.c ****     // shunt_volt (uV) / Rsen (mohm) = curr (mA)
+ 356:Core/Src/board.c ****     curr = shunt_volt / INA3221_RSEN_MOHM;
+ 648              		.loc 1 356 0
+ 649 0014 1E21     		movs	r1, #30
+ 650 0016 0098     		ldr	r0, [sp]
+ 651 0018 FFF7FEFF 		bl	__aeabi_idiv
+ 652              	.LVL83:
+ 653 001c 0400     		movs	r4, r0
+ 654              	.LVL84:
+ 357:Core/Src/board.c **** #endif
+ 358:Core/Src/board.c **** #ifdef GPIO_SKUID
+ 359:Core/Src/board.c ****   }
+ 360:Core/Src/board.c **** #endif /* GPIO_SKUID */
+ 361:Core/Src/board.c **** 
+ 362:Core/Src/board.c ****   watt = (ABS(volt) * curr) / 1000;
+ 655              		.loc 1 362 0
+ 656 001e 019E     		ldr	r6, [sp, #4]
+ 657 0020 F317     		asrs	r3, r6, #31
+ 658 0022 F018     		adds	r0, r6, r3
+ 659              	.LVL85:
+ 660 0024 5840     		eors	r0, r3
+ 661 0026 6043     		muls	r0, r4
+ 662 0028 FA21     		movs	r1, #250
+ 663 002a 8900     		lsls	r1, r1, #2
+ 664 002c FFF7FEFF 		bl	__aeabi_idiv
+ 665              	.LVL86:
+ 666 0030 0500     		movs	r5, r0
+ 667              	.LVL87:
+ 363:Core/Src/board.c ****   PRINTF("%5dmV , %4dmA, %5dmW\r\n" , volt, curr, watt);
+ 668              		.loc 1 363 0
+ARM GAS  /tmp/ccjV0RBx.s 			page 19
+
+
+ 669 0032 0300     		movs	r3, r0
+ 670 0034 2200     		movs	r2, r4
+ 671 0036 3100     		movs	r1, r6
+ 672 0038 0448     		ldr	r0, .L37
+ 673              	.LVL88:
+ 674 003a FFF7FEFF 		bl	printf
+ 675              	.LVL89:
+ 364:Core/Src/board.c ****   ssd1306_show(volt, curr, watt);
+ 676              		.loc 1 364 0
+ 677 003e 2A00     		movs	r2, r5
+ 678 0040 2100     		movs	r1, r4
+ 679 0042 0198     		ldr	r0, [sp, #4]
+ 680 0044 FFF7FEFF 		bl	ssd1306_show
+ 681              	.LVL90:
+ 365:Core/Src/board.c **** }
+ 682              		.loc 1 365 0
+ 683 0048 02B0     		add	sp, sp, #8
+ 684              		@ sp needed
+ 685              	.LVL91:
+ 686              	.LVL92:
+ 687 004a 70BD     		pop	{r4, r5, r6, pc}
+ 688              	.L38:
+ 689              		.align	2
+ 690              	.L37:
+ 691 004c 80000000 		.word	.LC23
+ 692              		.cfi_endproc
+ 693              	.LFE47:
+ 695              		.section	.data.line_2_str,"aw",%progbits
+ 696              		.align	2
+ 697              		.set	.LANCHOR2,. + 0
+ 700              	line_2_str:
+ 701 0000 49202035 		.ascii	"I  5000 mA"
+ 701      30303020 
+ 701      6D41
+ 702              		.section	.data.line_3_str,"aw",%progbits
+ 703              		.align	2
+ 704              		.set	.LANCHOR0,. + 0
+ 707              	line_3_str:
+ 708 0000 50203939 		.ascii	"P 99.9W =>"
+ 708      2E395720 
+ 708      3D3E
+ 709              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 710              		.align	2
+ 711              	.LC0:
+ 712 0000 736B753A 		.ascii	"sku: %d\015\012\000"
+ 712      2025640D 
+ 712      0A00
+ 713 000a 0000     		.space	2
+ 714              	.LC2:
+ 715 000c 0D0A5363 		.ascii	"\015\012Scanning I2C bus:\015\000"
+ 715      616E6E69 
+ 715      6E672049 
+ 715      32432062 
+ 715      75733A0D 
+ 716 0021 000000   		.space	3
+ 717              	.LC5:
+ 718 0024 0D0A3078 		.ascii	"\015\0120x%02X\015\012\000"
+ARM GAS  /tmp/ccjV0RBx.s 			page 20
+
+
+ 718      25303258 
+ 718      0D0A00
+ 719 002f 00       		.space	1
+ 720              	.LC7:
+ 721 0030 0D00     		.ascii	"\015\000"
+ 722 0032 0000     		.space	2
+ 723              	.LC13:
+ 724 0034 32303232 		.ascii	"2022.09.26\000"
+ 724      2E30392E 
+ 724      323600
+ 725 003f 00       		.space	1
+ 726              	.LC15:
+ 727 0040 56312E30 		.ascii	"V1.0\000"
+ 727      00
+ 728 0045 000000   		.space	3
+ 729              	.LC17:
+ 730 0048 5665723A 		.ascii	"Ver: %s-%s\015\012\000"
+ 730      2025732D 
+ 730      25730D0A 
+ 730      00
+ 731 0055 000000   		.space	3
+ 732              	.LC19:
+ 733 0058 73736431 		.ascii	"ssd1306 init fail!\015\000"
+ 733      33303620 
+ 733      696E6974 
+ 733      20666169 
+ 733      6C210D00 
+ 734              	.LC21:
+ 735 006c 696E6133 		.ascii	"ina3221 init fail!\015\000"
+ 735      32323120 
+ 735      696E6974 
+ 735      20666169 
+ 735      6C210D00 
+ 736              	.LC23:
+ 737 0080 2535646D 		.ascii	"%5dmV , %4dmA, %5dmW\015\012\000"
+ 737      56202C20 
+ 737      2534646D 
+ 737      412C2025 
+ 737      35646D57 
+ 738              		.section	.data.line_1_str,"aw",%progbits
+ 739              		.align	2
+ 740              		.set	.LANCHOR1,. + 0
+ 743              	line_1_str:
+ 744 0000 56203230 		.ascii	"V 20000 mV"
+ 744      30303020 
+ 744      6D56
+ 745              		.text
+ 746              	.Letext0:
+ 747              		.file 2 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/machine/_default_types.h"
+ 748              		.file 3 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/sys/_stdint.h"
+ 749              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 750              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 751              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 752              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h"
+ 753              		.file 8 "Core/Driver/oled_v2/ssd1306_fonts.h"
+ 754              		.file 9 "Core/Driver/oled_v2/ssd1306.h"
+ 755              		.file 10 "Core/Inc/gpio_uart.h"
+ARM GAS  /tmp/ccjV0RBx.s 			page 21
+
+
+ 756              		.file 11 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/stdio.h"
+ 757              		.file 12 "<built-in>"
+ 758              		.file 13 "Core/Driver/ina3221/ina3221.h"
+ 759              		.file 14 "Core/Inc/main.h"
+ 760              		.file 15 "Core/Inc/board.h"
+ARM GAS  /tmp/ccjV0RBx.s 			page 22
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 board.c
+     /tmp/ccjV0RBx.s:20     .text._write:00000000 $t
+     /tmp/ccjV0RBx.s:25     .text._write:00000000 _write
+     /tmp/ccjV0RBx.s:55     .text.BOARD_get_sku:00000000 $t
+     /tmp/ccjV0RBx.s:60     .text.BOARD_get_sku:00000000 BOARD_get_sku
+     /tmp/ccjV0RBx.s:75     .text.sku_Init:00000000 $t
+     /tmp/ccjV0RBx.s:80     .text.sku_Init:00000000 sku_Init
+     /tmp/ccjV0RBx.s:104    .text.sku_Init:00000010 $d
+     /tmp/ccjV0RBx.s:109    .text.i2c_scan:00000000 $t
+     /tmp/ccjV0RBx.s:114    .text.i2c_scan:00000000 i2c_scan
+     /tmp/ccjV0RBx.s:181    .text.i2c_scan:00000040 $d
+     /tmp/ccjV0RBx.s:191    .text.ssd1306_show:00000000 $t
+     /tmp/ccjV0RBx.s:196    .text.ssd1306_show:00000000 ssd1306_show
+     /tmp/ccjV0RBx.s:527    .text.ssd1306_show:000001b0 $d
+     /tmp/ccjV0RBx.s:538    .text.BOARD_Init:00000000 $t
+     /tmp/ccjV0RBx.s:543    .text.BOARD_Init:00000000 BOARD_Init
+     /tmp/ccjV0RBx.s:606    .text.BOARD_Init:00000048 $d
+     /tmp/ccjV0RBx.s:615    .text.BOARD_Loop:00000000 $t
+     /tmp/ccjV0RBx.s:620    .text.BOARD_Loop:00000000 BOARD_Loop
+     /tmp/ccjV0RBx.s:691    .text.BOARD_Loop:0000004c $d
+     /tmp/ccjV0RBx.s:696    .data.line_2_str:00000000 $d
+     /tmp/ccjV0RBx.s:700    .data.line_2_str:00000000 line_2_str
+     /tmp/ccjV0RBx.s:703    .data.line_3_str:00000000 $d
+     /tmp/ccjV0RBx.s:707    .data.line_3_str:00000000 line_3_str
+     /tmp/ccjV0RBx.s:710    .rodata.str1.4:00000000 $d
+     /tmp/ccjV0RBx.s:739    .data.line_1_str:00000000 $d
+     /tmp/ccjV0RBx.s:743    .data.line_1_str:00000000 line_1_str
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+GPIO_UART_Transmit
+printf
+puts
+HAL_I2C_IsDeviceReady
+putchar
+hi2c1
+__aeabi_idiv
+__aeabi_idivmod
+ssd1306_Fill
+ssd1306_SetCursor
+ssd1306_WriteString
+ssd1306_UpdateScreen
+Font_11x18_SUPPORT
+GPIO_UART_Init
+ssd1306_Init
+ina3221_init
+Error_Handler
+ina3221_gat_data

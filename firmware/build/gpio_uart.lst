@@ -1,0 +1,457 @@
+ARM GAS  /tmp/ccxYfpQE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"gpio_uart.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.delay_1us,"ax",%progbits
+  20              		.align	2
+  21              		.code	16
+  22              		.thumb_func
+  24              	delay_1us:
+  25              	.LFB41:
+  26              		.file 1 "Core/Src/gpio_uart.c"
+   1:Core/Src/gpio_uart.c **** 
+   2:Core/Src/gpio_uart.c **** #include "board.h"
+   3:Core/Src/gpio_uart.c **** #include "gpio_uart.h"
+   4:Core/Src/gpio_uart.c **** #include "main.h"
+   5:Core/Src/gpio_uart.c **** #include <stdint.h>
+   6:Core/Src/gpio_uart.c **** 
+   7:Core/Src/gpio_uart.c **** #ifdef UART_DEBUG_GPIO
+   8:Core/Src/gpio_uart.c **** 
+   9:Core/Src/gpio_uart.c **** /* CoreClock is run in 48 MHz */
+  10:Core/Src/gpio_uart.c **** #define SYSTICKCLOCK 48000000ULL
+  11:Core/Src/gpio_uart.c **** /* if CoreClock is 48 MHz, 48 ticks spend 1 uS */
+  12:Core/Src/gpio_uart.c **** #define SYSTICKPERUS (SYSTICKCLOCK / 1000000UL)
+  13:Core/Src/gpio_uart.c **** 
+  14:Core/Src/gpio_uart.c **** #define GPIO_LOW GPIO_PIN_RESET
+  15:Core/Src/gpio_uart.c **** #define GPIO_HIGH GPIO_PIN_SET
+  16:Core/Src/gpio_uart.c **** #define BIT_DELAY_US CONFIG_SEND_BIT_DELAY_US
+  17:Core/Src/gpio_uart.c **** #define GPIO_UART_IO_Set(state) HAL_GPIO_WritePin(GPIO_UART_Port, GPIO_UART_Pin, state)
+  18:Core/Src/gpio_uart.c **** 
+  19:Core/Src/gpio_uart.c **** // 9600   104 us  28~32 ok
+  20:Core/Src/gpio_uart.c **** // 38400   26 us  25~29 ok
+  21:Core/Src/gpio_uart.c **** // 57600   17 us  .24~26.. ok
+  22:Core/Src/gpio_uart.c **** // 115200   9 us  16~20 ok
+  23:Core/Src/gpio_uart.c **** 
+  24:Core/Src/gpio_uart.c **** static void delay_1us(void) {
+  27              		.loc 1 24 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  25:Core/Src/gpio_uart.c **** 
+  26:Core/Src/gpio_uart.c ****   asm volatile ("MOV R0,R0\n" // 1
+  32              		.loc 1 26 0
+ARM GAS  /tmp/ccxYfpQE.s 			page 2
+
+
+  33              		.syntax divided
+  34              	@ 26 "Core/Src/gpio_uart.c" 1
+  35 0000 001C     		MOV R0,R0
+  36 0002 001C     	MOV R0,R0
+  37 0004 001C     	MOV R0,R0
+  38 0006 001C     	MOV R0,R0
+  39 0008 001C     	MOV R0,R0
+  40 000a 001C     	MOV R0,R0
+  41 000c 001C     	MOV R0,R0
+  42 000e 001C     	MOV R0,R0
+  43 0010 001C     	MOV R0,R0
+  44 0012 001C     	MOV R0,R0
+  45 0014 001C     	MOV R0,R0
+  46 0016 001C     	MOV R0,R0
+  47 0018 001C     	MOV R0,R0
+  48 001a 001C     	MOV R0,R0
+  49 001c 001C     	MOV R0,R0
+  50 001e 001C     	MOV R0,R0
+  51 0020 001C     	MOV R0,R0
+  52 0022 001C     	MOV R0,R0
+  53              	
+  54              	@ 0 "" 2
+  27:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  28:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  29:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  30:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  31:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  32:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  33:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  34:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  35:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  36:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  37:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  38:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  39:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  40:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  41:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  42:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n"
+  43:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 18
+  44:Core/Src/gpio_uart.c ****                 );
+  45:Core/Src/gpio_uart.c **** 
+  46:Core/Src/gpio_uart.c **** #if defined(CONFIG_BAUD_RATE_57600) || defined(CONFIG_BAUD_RATE_38400) ||\
+  47:Core/Src/gpio_uart.c ****     defined(CONFIG_BAUD_RATE_9600)
+  48:Core/Src/gpio_uart.c ****   asm volatile ("MOV R0,R0\n" // 19
+  49:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 20
+  50:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 21
+  51:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 22
+  52:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 23
+  53:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 24
+  54:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 25
+  55:Core/Src/gpio_uart.c ****                 );
+  56:Core/Src/gpio_uart.c **** #endif
+  57:Core/Src/gpio_uart.c **** 
+  58:Core/Src/gpio_uart.c **** #if defined(CONFIG_BAUD_RATE_38400) ||defined(CONFIG_BAUD_RATE_9600)
+  59:Core/Src/gpio_uart.c ****   asm volatile ("MOV R0,R0\n" // 26
+  60:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 27
+  61:Core/Src/gpio_uart.c ****                 );
+ARM GAS  /tmp/ccxYfpQE.s 			page 3
+
+
+  62:Core/Src/gpio_uart.c **** #endif
+  63:Core/Src/gpio_uart.c **** 
+  64:Core/Src/gpio_uart.c **** #if defined(CONFIG_BAUD_RATE_9600)
+  65:Core/Src/gpio_uart.c ****   asm volatile ("MOV R0,R0\n" // 28
+  66:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 29
+  67:Core/Src/gpio_uart.c ****                 "MOV R0,R0\n" // 30
+  68:Core/Src/gpio_uart.c ****                 );
+  69:Core/Src/gpio_uart.c **** #endif
+  70:Core/Src/gpio_uart.c **** 
+  71:Core/Src/gpio_uart.c **** }
+  55              		.loc 1 71 0
+  56              		.thumb
+  57              		.syntax unified
+  58              		@ sp needed
+  59 0024 7047     		bx	lr
+  60              		.cfi_endproc
+  61              	.LFE41:
+  63 0026 C046     		.section	.text.delay_us,"ax",%progbits
+  64              		.align	2
+  65              		.code	16
+  66              		.thumb_func
+  68              	delay_us:
+  69              	.LFB42:
+  72:Core/Src/gpio_uart.c **** 
+  73:Core/Src/gpio_uart.c **** static void delay_us(unsigned int us) {
+  70              		.loc 1 73 0
+  71              		.cfi_startproc
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74              	.LVL0:
+  75 0000 10B5     		push	{r4, lr}
+  76              	.LCFI0:
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 4, -8
+  79              		.cfi_offset 14, -4
+  80 0002 0400     		movs	r4, r0
+  81 0004 00E0     		b	.L3
+  82              	.LVL1:
+  83              	.L4:
+  74:Core/Src/gpio_uart.c **** 
+  75:Core/Src/gpio_uart.c ****   do
+  76:Core/Src/gpio_uart.c ****   {
+  77:Core/Src/gpio_uart.c ****     delay_1us();
+  78:Core/Src/gpio_uart.c ****   }
+  79:Core/Src/gpio_uart.c ****   while (us--);
+  84              		.loc 1 79 0
+  85 0006 1C00     		movs	r4, r3
+  86              	.LVL2:
+  87              	.L3:
+  77:Core/Src/gpio_uart.c ****   }
+  88              		.loc 1 77 0 discriminator 1
+  89 0008 FFF7FEFF 		bl	delay_1us
+  90              	.LVL3:
+  91              		.loc 1 79 0 discriminator 1
+  92 000c 631E     		subs	r3, r4, #1
+  93              	.LVL4:
+  94 000e 002C     		cmp	r4, #0
+ARM GAS  /tmp/ccxYfpQE.s 			page 4
+
+
+  95 0010 F9D1     		bne	.L4
+  80:Core/Src/gpio_uart.c **** }
+  96              		.loc 1 80 0
+  97              		@ sp needed
+  98 0012 10BD     		pop	{r4, pc}
+  99              		.cfi_endproc
+ 100              	.LFE42:
+ 102              		.section	.text.GPIO_UART_send_byte,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	GPIO_UART_send_byte
+ 105              		.code	16
+ 106              		.thumb_func
+ 108              	GPIO_UART_send_byte:
+ 109              	.LFB43:
+  81:Core/Src/gpio_uart.c **** 
+  82:Core/Src/gpio_uart.c **** void GPIO_UART_send_byte(uint8_t byte_out)
+  83:Core/Src/gpio_uart.c **** {
+ 110              		.loc 1 83 0
+ 111              		.cfi_startproc
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              	.LVL5:
+ 115 0000 70B5     		push	{r4, r5, r6, lr}
+ 116              	.LCFI1:
+ 117              		.cfi_def_cfa_offset 16
+ 118              		.cfi_offset 4, -16
+ 119              		.cfi_offset 5, -12
+ 120              		.cfi_offset 6, -8
+ 121              		.cfi_offset 14, -4
+ 122 0002 0500     		movs	r5, r0
+  84:Core/Src/gpio_uart.c ****   int bit;
+  85:Core/Src/gpio_uart.c **** 
+  86:Core/Src/gpio_uart.c ****   /* Start bit */
+  87:Core/Src/gpio_uart.c ****   GPIO_UART_IO_Set(GPIO_LOW);
+ 123              		.loc 1 87 0
+ 124 0004 0022     		movs	r2, #0
+ 125 0006 0421     		movs	r1, #4
+ 126 0008 9020     		movs	r0, #144
+ 127              	.LVL6:
+ 128 000a C005     		lsls	r0, r0, #23
+ 129 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 130              	.LVL7:
+  88:Core/Src/gpio_uart.c **** 
+  89:Core/Src/gpio_uart.c ****   delay_us(BIT_DELAY_US * CONFIG_START_BIT_LENGTH);
+ 131              		.loc 1 89 0
+ 132 0010 0920     		movs	r0, #9
+ 133 0012 FFF7FEFF 		bl	delay_us
+ 134              	.LVL8:
+  90:Core/Src/gpio_uart.c **** 
+  91:Core/Src/gpio_uart.c ****   /* Data bit */
+  92:Core/Src/gpio_uart.c ****   for (bit = BIT(0); bit <= BIT(CONFIG_DATA_BIT_LENGTH); bit <<= 1) {
+ 135              		.loc 1 92 0
+ 136 0016 0124     		movs	r4, #1
+ 137 0018 0DE0     		b	.L6
+ 138              	.LVL9:
+ 139              	.L7:
+  93:Core/Src/gpio_uart.c **** 
+ARM GAS  /tmp/ccxYfpQE.s 			page 5
+
+
+  94:Core/Src/gpio_uart.c ****     /* From Data Bit Set GPIO High/Low */
+  95:Core/Src/gpio_uart.c ****     GPIO_UART_IO_Set((byte_out & bit) ? GPIO_HIGH : GPIO_LOW);
+ 140              		.loc 1 95 0 discriminator 3
+ 141 001a 2200     		movs	r2, r4
+ 142 001c 2A40     		ands	r2, r5
+ 143 001e 531E     		subs	r3, r2, #1
+ 144 0020 9A41     		sbcs	r2, r2, r3
+ 145 0022 D2B2     		uxtb	r2, r2
+ 146 0024 0421     		movs	r1, #4
+ 147 0026 9020     		movs	r0, #144
+ 148 0028 C005     		lsls	r0, r0, #23
+ 149 002a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 150              	.LVL10:
+  96:Core/Src/gpio_uart.c ****     
+  97:Core/Src/gpio_uart.c ****     /* Delay BIT_DELAY_US */
+  98:Core/Src/gpio_uart.c ****     delay_us(BIT_DELAY_US);
+ 151              		.loc 1 98 0 discriminator 3
+ 152 002e 0920     		movs	r0, #9
+ 153 0030 FFF7FEFF 		bl	delay_us
+ 154              	.LVL11:
+  92:Core/Src/gpio_uart.c **** 
+ 155              		.loc 1 92 0 discriminator 3
+ 156 0034 6400     		lsls	r4, r4, #1
+ 157              	.LVL12:
+ 158              	.L6:
+  92:Core/Src/gpio_uart.c **** 
+ 159              		.loc 1 92 0 is_stmt 0 discriminator 1
+ 160 0036 8023     		movs	r3, #128
+ 161 0038 5B00     		lsls	r3, r3, #1
+ 162 003a 9C42     		cmp	r4, r3
+ 163 003c EDD9     		bls	.L7
+  99:Core/Src/gpio_uart.c ****   }
+ 100:Core/Src/gpio_uart.c **** 
+ 101:Core/Src/gpio_uart.c ****   /* Stop bit */
+ 102:Core/Src/gpio_uart.c ****   GPIO_UART_IO_Set(GPIO_HIGH);
+ 164              		.loc 1 102 0 is_stmt 1
+ 165 003e 0122     		movs	r2, #1
+ 166 0040 0421     		movs	r1, #4
+ 167 0042 9020     		movs	r0, #144
+ 168 0044 C005     		lsls	r0, r0, #23
+ 169 0046 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 170              	.LVL13:
+ 103:Core/Src/gpio_uart.c ****   delay_us(BIT_DELAY_US * CONFIG_STOP_BIT_LENGTH);
+ 171              		.loc 1 103 0
+ 172 004a 0920     		movs	r0, #9
+ 173 004c FFF7FEFF 		bl	delay_us
+ 174              	.LVL14:
+ 104:Core/Src/gpio_uart.c **** }
+ 175              		.loc 1 104 0
+ 176              		@ sp needed
+ 177              	.LVL15:
+ 178 0050 70BD     		pop	{r4, r5, r6, pc}
+ 179              		.cfi_endproc
+ 180              	.LFE43:
+ 182 0052 C046     		.section	.text.GPIO_UART_Transmit,"ax",%progbits
+ 183              		.align	2
+ 184              		.global	GPIO_UART_Transmit
+ARM GAS  /tmp/ccxYfpQE.s 			page 6
+
+
+ 185              		.code	16
+ 186              		.thumb_func
+ 188              	GPIO_UART_Transmit:
+ 189              	.LFB44:
+ 105:Core/Src/gpio_uart.c **** 
+ 106:Core/Src/gpio_uart.c **** void GPIO_UART_Transmit(uint8_t *ptr, int len) {
+ 190              		.loc 1 106 0
+ 191              		.cfi_startproc
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              	.LVL16:
+ 195 0000 70B5     		push	{r4, r5, r6, lr}
+ 196              	.LCFI2:
+ 197              		.cfi_def_cfa_offset 16
+ 198              		.cfi_offset 4, -16
+ 199              		.cfi_offset 5, -12
+ 200              		.cfi_offset 6, -8
+ 201              		.cfi_offset 14, -4
+ 202 0002 0400     		movs	r4, r0
+ 203              	.LVL17:
+ 204              	.L10:
+ 107:Core/Src/gpio_uart.c **** 
+ 108:Core/Src/gpio_uart.c ****   while(1)
+ 109:Core/Src/gpio_uart.c ****   {
+ 110:Core/Src/gpio_uart.c ****     if(*ptr == '\0' || len-- == 0 )
+ 205              		.loc 1 110 0
+ 206 0004 2078     		ldrb	r0, [r4]
+ 207 0006 0028     		cmp	r0, #0
+ 208 0008 07D0     		beq	.L8
+ 209              		.loc 1 110 0 is_stmt 0 discriminator 1
+ 210 000a 4D1E     		subs	r5, r1, #1
+ 211              	.LVL18:
+ 212 000c 0029     		cmp	r1, #0
+ 213 000e 04D0     		beq	.L8
+ 111:Core/Src/gpio_uart.c ****       break;
+ 112:Core/Src/gpio_uart.c ****     GPIO_UART_send_byte(*ptr++);
+ 214              		.loc 1 112 0 is_stmt 1
+ 215 0010 0134     		adds	r4, r4, #1
+ 216              	.LVL19:
+ 217 0012 FFF7FEFF 		bl	GPIO_UART_send_byte
+ 218              	.LVL20:
+ 110:Core/Src/gpio_uart.c ****       break;
+ 219              		.loc 1 110 0
+ 220 0016 2900     		movs	r1, r5
+ 113:Core/Src/gpio_uart.c ****   }
+ 221              		.loc 1 113 0
+ 222 0018 F4E7     		b	.L10
+ 223              	.LVL21:
+ 224              	.L8:
+ 114:Core/Src/gpio_uart.c **** 
+ 115:Core/Src/gpio_uart.c **** }
+ 225              		.loc 1 115 0
+ 226              		@ sp needed
+ 227              	.LVL22:
+ 228 001a 70BD     		pop	{r4, r5, r6, pc}
+ 229              		.cfi_endproc
+ 230              	.LFE44:
+ARM GAS  /tmp/ccxYfpQE.s 			page 7
+
+
+ 232              		.section	.text.GPIO_UART_Init,"ax",%progbits
+ 233              		.align	2
+ 234              		.global	GPIO_UART_Init
+ 235              		.code	16
+ 236              		.thumb_func
+ 238              	GPIO_UART_Init:
+ 239              	.LFB45:
+ 116:Core/Src/gpio_uart.c **** 
+ 117:Core/Src/gpio_uart.c **** void GPIO_UART_Init(void) {
+ 240              		.loc 1 117 0
+ 241              		.cfi_startproc
+ 242              		@ args = 0, pretend = 0, frame = 0
+ 243              		@ frame_needed = 0, uses_anonymous_args = 0
+ 244 0000 10B5     		push	{r4, lr}
+ 245              	.LCFI3:
+ 246              		.cfi_def_cfa_offset 8
+ 247              		.cfi_offset 4, -8
+ 248              		.cfi_offset 14, -4
+ 118:Core/Src/gpio_uart.c **** 
+ 119:Core/Src/gpio_uart.c ****   GPIO_UART_IO_Set(GPIO_HIGH);
+ 249              		.loc 1 119 0
+ 250 0002 0122     		movs	r2, #1
+ 251 0004 0421     		movs	r1, #4
+ 252 0006 9020     		movs	r0, #144
+ 253 0008 C005     		lsls	r0, r0, #23
+ 254 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 255              	.LVL23:
+ 120:Core/Src/gpio_uart.c **** 
+ 121:Core/Src/gpio_uart.c ****   HAL_Delay(10);
+ 256              		.loc 1 121 0
+ 257 000e 0A20     		movs	r0, #10
+ 258 0010 FFF7FEFF 		bl	HAL_Delay
+ 259              	.LVL24:
+ 122:Core/Src/gpio_uart.c **** /*
+ 123:Core/Src/gpio_uart.c ****   uint8_t str1[] = "GPIO_UART_Init Done\r\n";
+ 124:Core/Src/gpio_uart.c ****   GPIO_UART_Transmit(str1, sizeof(str1));
+ 125:Core/Src/gpio_uart.c **** */
+ 126:Core/Src/gpio_uart.c ****   PRINTF("\r\nGPIO_UART_Init Done\r\n");
+ 260              		.loc 1 126 0
+ 261 0014 0148     		ldr	r0, .L12
+ 262 0016 FFF7FEFF 		bl	puts
+ 263              	.LVL25:
+ 127:Core/Src/gpio_uart.c **** }
+ 264              		.loc 1 127 0
+ 265              		@ sp needed
+ 266 001a 10BD     		pop	{r4, pc}
+ 267              	.L13:
+ 268              		.align	2
+ 269              	.L12:
+ 270 001c 00000000 		.word	.LC0
+ 271              		.cfi_endproc
+ 272              	.LFE45:
+ 274              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 275              		.align	2
+ 276              	.LC0:
+ 277 0000 0D0A4750 		.ascii	"\015\012GPIO_UART_Init Done\015\000"
+ 277      494F5F55 
+ARM GAS  /tmp/ccxYfpQE.s 			page 8
+
+
+ 277      4152545F 
+ 277      496E6974 
+ 277      20446F6E 
+ 278              		.text
+ 279              	.Letext0:
+ 280              		.file 2 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/machine/_default_types.h"
+ 281              		.file 3 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/sys/_stdint.h"
+ 282              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 283              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 284              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ 285              		.file 7 "<built-in>"
+ARM GAS  /tmp/ccxYfpQE.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 gpio_uart.c
+     /tmp/ccxYfpQE.s:20     .text.delay_1us:00000000 $t
+     /tmp/ccxYfpQE.s:24     .text.delay_1us:00000000 delay_1us
+     /tmp/ccxYfpQE.s:64     .text.delay_us:00000000 $t
+     /tmp/ccxYfpQE.s:68     .text.delay_us:00000000 delay_us
+     /tmp/ccxYfpQE.s:103    .text.GPIO_UART_send_byte:00000000 $t
+     /tmp/ccxYfpQE.s:108    .text.GPIO_UART_send_byte:00000000 GPIO_UART_send_byte
+     /tmp/ccxYfpQE.s:183    .text.GPIO_UART_Transmit:00000000 $t
+     /tmp/ccxYfpQE.s:188    .text.GPIO_UART_Transmit:00000000 GPIO_UART_Transmit
+     /tmp/ccxYfpQE.s:233    .text.GPIO_UART_Init:00000000 $t
+     /tmp/ccxYfpQE.s:238    .text.GPIO_UART_Init:00000000 GPIO_UART_Init
+     /tmp/ccxYfpQE.s:270    .text.GPIO_UART_Init:0000001c $d
+     /tmp/ccxYfpQE.s:275    .rodata.str1.4:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_Delay
+puts

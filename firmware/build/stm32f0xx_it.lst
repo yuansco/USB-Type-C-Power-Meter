@@ -1,0 +1,282 @@
+ARM GAS  /tmp/cc1RDX4J.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"stm32f0xx_it.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.NMI_Handler,"ax",%progbits
+  20              		.align	2
+  21              		.global	NMI_Handler
+  22              		.code	16
+  23              		.thumb_func
+  25              	NMI_Handler:
+  26              	.LFB40:
+  27              		.file 1 "Core/Src/stm32f0xx_it.c"
+   1:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN Header */
+   2:Core/Src/stm32f0xx_it.c **** /**
+   3:Core/Src/stm32f0xx_it.c ****   ******************************************************************************
+   4:Core/Src/stm32f0xx_it.c ****   * @file    stm32f0xx_it.c
+   5:Core/Src/stm32f0xx_it.c ****   * @brief   Interrupt Service Routines.
+   6:Core/Src/stm32f0xx_it.c ****   ******************************************************************************
+   7:Core/Src/stm32f0xx_it.c ****   * @attention
+   8:Core/Src/stm32f0xx_it.c ****   *
+   9:Core/Src/stm32f0xx_it.c ****   * Copyright (c) 2022 STMicroelectronics.
+  10:Core/Src/stm32f0xx_it.c ****   * All rights reserved.
+  11:Core/Src/stm32f0xx_it.c ****   *
+  12:Core/Src/stm32f0xx_it.c ****   * This software is licensed under terms that can be found in the LICENSE file
+  13:Core/Src/stm32f0xx_it.c ****   * in the root directory of this software component.
+  14:Core/Src/stm32f0xx_it.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
+  15:Core/Src/stm32f0xx_it.c ****   *
+  16:Core/Src/stm32f0xx_it.c ****   ******************************************************************************
+  17:Core/Src/stm32f0xx_it.c ****   */
+  18:Core/Src/stm32f0xx_it.c **** /* USER CODE END Header */
+  19:Core/Src/stm32f0xx_it.c **** 
+  20:Core/Src/stm32f0xx_it.c **** /* Includes ------------------------------------------------------------------*/
+  21:Core/Src/stm32f0xx_it.c **** #include "main.h"
+  22:Core/Src/stm32f0xx_it.c **** #include "stm32f0xx_it.h"
+  23:Core/Src/stm32f0xx_it.c **** /* Private includes ----------------------------------------------------------*/
+  24:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN Includes */
+  25:Core/Src/stm32f0xx_it.c **** /* USER CODE END Includes */
+  26:Core/Src/stm32f0xx_it.c **** 
+  27:Core/Src/stm32f0xx_it.c **** /* Private typedef -----------------------------------------------------------*/
+  28:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN TD */
+  29:Core/Src/stm32f0xx_it.c **** 
+  30:Core/Src/stm32f0xx_it.c **** /* USER CODE END TD */
+  31:Core/Src/stm32f0xx_it.c **** 
+ARM GAS  /tmp/cc1RDX4J.s 			page 2
+
+
+  32:Core/Src/stm32f0xx_it.c **** /* Private define ------------------------------------------------------------*/
+  33:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN PD */
+  34:Core/Src/stm32f0xx_it.c **** 
+  35:Core/Src/stm32f0xx_it.c **** /* USER CODE END PD */
+  36:Core/Src/stm32f0xx_it.c **** 
+  37:Core/Src/stm32f0xx_it.c **** /* Private macro -------------------------------------------------------------*/
+  38:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN PM */
+  39:Core/Src/stm32f0xx_it.c **** 
+  40:Core/Src/stm32f0xx_it.c **** /* USER CODE END PM */
+  41:Core/Src/stm32f0xx_it.c **** 
+  42:Core/Src/stm32f0xx_it.c **** /* Private variables ---------------------------------------------------------*/
+  43:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN PV */
+  44:Core/Src/stm32f0xx_it.c **** 
+  45:Core/Src/stm32f0xx_it.c **** /* USER CODE END PV */
+  46:Core/Src/stm32f0xx_it.c **** 
+  47:Core/Src/stm32f0xx_it.c **** /* Private function prototypes -----------------------------------------------*/
+  48:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN PFP */
+  49:Core/Src/stm32f0xx_it.c **** 
+  50:Core/Src/stm32f0xx_it.c **** /* USER CODE END PFP */
+  51:Core/Src/stm32f0xx_it.c **** 
+  52:Core/Src/stm32f0xx_it.c **** /* Private user code ---------------------------------------------------------*/
+  53:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN 0 */
+  54:Core/Src/stm32f0xx_it.c **** 
+  55:Core/Src/stm32f0xx_it.c **** /* USER CODE END 0 */
+  56:Core/Src/stm32f0xx_it.c **** 
+  57:Core/Src/stm32f0xx_it.c **** /* External variables --------------------------------------------------------*/
+  58:Core/Src/stm32f0xx_it.c **** 
+  59:Core/Src/stm32f0xx_it.c **** /* USER CODE BEGIN EV */
+  60:Core/Src/stm32f0xx_it.c **** 
+  61:Core/Src/stm32f0xx_it.c **** /* USER CODE END EV */
+  62:Core/Src/stm32f0xx_it.c **** 
+  63:Core/Src/stm32f0xx_it.c **** /******************************************************************************/
+  64:Core/Src/stm32f0xx_it.c **** /*           Cortex-M0 Processor Interruption and Exception Handlers          */
+  65:Core/Src/stm32f0xx_it.c **** /******************************************************************************/
+  66:Core/Src/stm32f0xx_it.c **** /**
+  67:Core/Src/stm32f0xx_it.c ****   * @brief This function handles Non maskable interrupt.
+  68:Core/Src/stm32f0xx_it.c ****   */
+  69:Core/Src/stm32f0xx_it.c **** void NMI_Handler(void)
+  70:Core/Src/stm32f0xx_it.c **** {
+  28              		.loc 1 70 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  34              	.L2:
+  35 0000 FEE7     		b	.L2
+  36              		.cfi_endproc
+  37              	.LFE40:
+  39 0002 C046     		.section	.text.HardFault_Handler,"ax",%progbits
+  40              		.align	2
+  41              		.global	HardFault_Handler
+  42              		.code	16
+  43              		.thumb_func
+  45              	HardFault_Handler:
+  46              	.LFB41:
+  71:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
+ARM GAS  /tmp/cc1RDX4J.s 			page 3
+
+
+  72:Core/Src/stm32f0xx_it.c **** 
+  73:Core/Src/stm32f0xx_it.c ****   /* USER CODE END NonMaskableInt_IRQn 0 */
+  74:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
+  75:Core/Src/stm32f0xx_it.c ****   while (1)
+  76:Core/Src/stm32f0xx_it.c ****   {
+  77:Core/Src/stm32f0xx_it.c ****   }
+  78:Core/Src/stm32f0xx_it.c ****   /* USER CODE END NonMaskableInt_IRQn 1 */
+  79:Core/Src/stm32f0xx_it.c **** }
+  80:Core/Src/stm32f0xx_it.c **** 
+  81:Core/Src/stm32f0xx_it.c **** /**
+  82:Core/Src/stm32f0xx_it.c ****   * @brief This function handles Hard fault interrupt.
+  83:Core/Src/stm32f0xx_it.c ****   */
+  84:Core/Src/stm32f0xx_it.c **** void HardFault_Handler(void)
+  85:Core/Src/stm32f0xx_it.c **** {
+  47              		.loc 1 85 0
+  48              		.cfi_startproc
+  49              		@ Volatile: function does not return.
+  50              		@ args = 0, pretend = 0, frame = 0
+  51              		@ frame_needed = 0, uses_anonymous_args = 0
+  52              		@ link register save eliminated.
+  53              	.L4:
+  54 0000 FEE7     		b	.L4
+  55              		.cfi_endproc
+  56              	.LFE41:
+  58 0002 C046     		.section	.text.SVC_Handler,"ax",%progbits
+  59              		.align	2
+  60              		.global	SVC_Handler
+  61              		.code	16
+  62              		.thumb_func
+  64              	SVC_Handler:
+  65              	.LFB42:
+  86:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN HardFault_IRQn 0 */
+  87:Core/Src/stm32f0xx_it.c **** 
+  88:Core/Src/stm32f0xx_it.c ****   /* USER CODE END HardFault_IRQn 0 */
+  89:Core/Src/stm32f0xx_it.c ****   while (1)
+  90:Core/Src/stm32f0xx_it.c ****   {
+  91:Core/Src/stm32f0xx_it.c ****     /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+  92:Core/Src/stm32f0xx_it.c ****     /* USER CODE END W1_HardFault_IRQn 0 */
+  93:Core/Src/stm32f0xx_it.c ****   }
+  94:Core/Src/stm32f0xx_it.c **** }
+  95:Core/Src/stm32f0xx_it.c **** 
+  96:Core/Src/stm32f0xx_it.c **** /**
+  97:Core/Src/stm32f0xx_it.c ****   * @brief This function handles System service call via SWI instruction.
+  98:Core/Src/stm32f0xx_it.c ****   */
+  99:Core/Src/stm32f0xx_it.c **** void SVC_Handler(void)
+ 100:Core/Src/stm32f0xx_it.c **** {
+  66              		.loc 1 100 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+ 101:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN SVC_IRQn 0 */
+ 102:Core/Src/stm32f0xx_it.c **** 
+ 103:Core/Src/stm32f0xx_it.c ****   /* USER CODE END SVC_IRQn 0 */
+ 104:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN SVC_IRQn 1 */
+ 105:Core/Src/stm32f0xx_it.c **** 
+ 106:Core/Src/stm32f0xx_it.c ****   /* USER CODE END SVC_IRQn 1 */
+ARM GAS  /tmp/cc1RDX4J.s 			page 4
+
+
+ 107:Core/Src/stm32f0xx_it.c **** }
+  71              		.loc 1 107 0
+  72              		@ sp needed
+  73 0000 7047     		bx	lr
+  74              		.cfi_endproc
+  75              	.LFE42:
+  77 0002 C046     		.section	.text.PendSV_Handler,"ax",%progbits
+  78              		.align	2
+  79              		.global	PendSV_Handler
+  80              		.code	16
+  81              		.thumb_func
+  83              	PendSV_Handler:
+  84              	.LFB43:
+ 108:Core/Src/stm32f0xx_it.c **** 
+ 109:Core/Src/stm32f0xx_it.c **** /**
+ 110:Core/Src/stm32f0xx_it.c ****   * @brief This function handles Pendable request for system service.
+ 111:Core/Src/stm32f0xx_it.c ****   */
+ 112:Core/Src/stm32f0xx_it.c **** void PendSV_Handler(void)
+ 113:Core/Src/stm32f0xx_it.c **** {
+  85              		.loc 1 113 0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89              		@ link register save eliminated.
+ 114:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN PendSV_IRQn 0 */
+ 115:Core/Src/stm32f0xx_it.c **** 
+ 116:Core/Src/stm32f0xx_it.c ****   /* USER CODE END PendSV_IRQn 0 */
+ 117:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN PendSV_IRQn 1 */
+ 118:Core/Src/stm32f0xx_it.c **** 
+ 119:Core/Src/stm32f0xx_it.c ****   /* USER CODE END PendSV_IRQn 1 */
+ 120:Core/Src/stm32f0xx_it.c **** }
+  90              		.loc 1 120 0
+  91              		@ sp needed
+  92 0000 7047     		bx	lr
+  93              		.cfi_endproc
+  94              	.LFE43:
+  96 0002 C046     		.section	.text.SysTick_Handler,"ax",%progbits
+  97              		.align	2
+  98              		.global	SysTick_Handler
+  99              		.code	16
+ 100              		.thumb_func
+ 102              	SysTick_Handler:
+ 103              	.LFB44:
+ 121:Core/Src/stm32f0xx_it.c **** 
+ 122:Core/Src/stm32f0xx_it.c **** /**
+ 123:Core/Src/stm32f0xx_it.c ****   * @brief This function handles System tick timer.
+ 124:Core/Src/stm32f0xx_it.c ****   */
+ 125:Core/Src/stm32f0xx_it.c **** void SysTick_Handler(void)
+ 126:Core/Src/stm32f0xx_it.c **** {
+ 104              		.loc 1 126 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108 0000 10B5     		push	{r4, lr}
+ 109              	.LCFI0:
+ 110              		.cfi_def_cfa_offset 8
+ 111              		.cfi_offset 4, -8
+ARM GAS  /tmp/cc1RDX4J.s 			page 5
+
+
+ 112              		.cfi_offset 14, -4
+ 127:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN SysTick_IRQn 0 */
+ 128:Core/Src/stm32f0xx_it.c **** 
+ 129:Core/Src/stm32f0xx_it.c ****   /* USER CODE END SysTick_IRQn 0 */
+ 130:Core/Src/stm32f0xx_it.c ****   HAL_IncTick();
+ 113              		.loc 1 130 0
+ 114 0002 FFF7FEFF 		bl	HAL_IncTick
+ 115              	.LVL0:
+ 131:Core/Src/stm32f0xx_it.c ****   /* USER CODE BEGIN SysTick_IRQn 1 */
+ 132:Core/Src/stm32f0xx_it.c **** 
+ 133:Core/Src/stm32f0xx_it.c ****   /* USER CODE END SysTick_IRQn 1 */
+ 134:Core/Src/stm32f0xx_it.c **** }
+ 116              		.loc 1 134 0
+ 117              		@ sp needed
+ 118 0006 10BD     		pop	{r4, pc}
+ 119              		.cfi_endproc
+ 120              	.LFE44:
+ 122              		.text
+ 123              	.Letext0:
+ 124              		.file 2 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ARM GAS  /tmp/cc1RDX4J.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stm32f0xx_it.c
+     /tmp/cc1RDX4J.s:20     .text.NMI_Handler:00000000 $t
+     /tmp/cc1RDX4J.s:25     .text.NMI_Handler:00000000 NMI_Handler
+     /tmp/cc1RDX4J.s:40     .text.HardFault_Handler:00000000 $t
+     /tmp/cc1RDX4J.s:45     .text.HardFault_Handler:00000000 HardFault_Handler
+     /tmp/cc1RDX4J.s:59     .text.SVC_Handler:00000000 $t
+     /tmp/cc1RDX4J.s:64     .text.SVC_Handler:00000000 SVC_Handler
+     /tmp/cc1RDX4J.s:78     .text.PendSV_Handler:00000000 $t
+     /tmp/cc1RDX4J.s:83     .text.PendSV_Handler:00000000 PendSV_Handler
+     /tmp/cc1RDX4J.s:97     .text.SysTick_Handler:00000000 $t
+     /tmp/cc1RDX4J.s:102    .text.SysTick_Handler:00000000 SysTick_Handler
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_IncTick

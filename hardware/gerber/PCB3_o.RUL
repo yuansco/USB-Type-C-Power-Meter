@@ -1,0 +1,11 @@
+DRC Rules Export File for PCB: G:\Z\my Maker project\USB\USB Type-C Power Meter_0829_Gerber_Out\PCB3_o.PcbDoc
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=5.91
+RuleKind=Clearance|RuleName=Clearance|Scope=Board|Minimum=4.92
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=Clearance|RuleName=Clearance_1|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_2|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_3|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_4|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_5|Scope=Board|Minimum=7.87
+RuleKind=Clearance|RuleName=Clearance_6|Scope=Board|Minimum=7.87
