@@ -294,7 +294,9 @@ void BOARD_Init() {
 #ifdef SSD1306_OLED
   if (ssd1306_Init()) {
     PRINTF("ssd1306 init fail!\r\n");
+#ifdef I2C_SCAN
     i2c_scan();
+#endif /* I2C_SCAN */
     //Error_Handler();
   }
 #endif
@@ -378,10 +380,6 @@ static test_case test[] = {
   { .v = 15005, .i = 2989 },
   { .v = 9000,  .i = 3001 },
   { .v = 4986,  .i = 1499 },
-  { .v = -4986,  .i = 1499 },
-  { .v = -9000,  .i = 3001 },
-  { .v = -15005, .i = 2989 },
-  { .v = -19900, .i = 4996 },
 };
 
 void BOARD_Loop() {

@@ -17,10 +17,6 @@ echo "export PATH=$PATH:~/gcc-arm-none-eabi-5_4-2016q3/bin" >> ~/.bashrc
 source ~/.bashrc
 arm-none-eabi-gcc -v
 ```
-Install cmake tool:
-```
-sudo apt-get install cmake
-```
 Run `build.sh` script to compile:
 ```
 ./build.sh

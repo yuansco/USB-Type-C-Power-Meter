@@ -23,7 +23,10 @@ make
 ############################
 
 # elf file
-ELF=$(ls ./build/*.elf)
+ELF=$(ls ./Build/*.elf)
+
+# ld file
+LD=$(ls ./*.ld)
 
 # check elf file exists
 if [ -e "$ELF" ]
@@ -35,10 +38,18 @@ then
     bss=$(echo "$size_info" | awk '{print $3}')
     flash=$(($text + $data))
     sram=$(($bss + $data))
+
+    # get chip Flash and SRAM size
+    flash_full=$(cat $LD |grep "FLASH (rx)" |cut -d '=' -f 3 |cut -d 'K' -f 1 |tr -d ' ')
+    sram_full=$(cat $LD |grep "RAM (xrw)" |cut -d '=' -f 3 |cut -d 'K' -f 1 |tr -d ' ')
+    flash_used=$(($flash*100 / ($flash_full*1024)))
+    sram_used=$(($sram*100 / ($sram_full*1024)))
+
     echo
-    echo "FLASH used = $flash bytes"
-    echo "SRAM  used =  $sram bytes"
+    printf "FLASH used = %5s bytes (%2s%%)\n" "$flash" "$flash_used"
+    printf "SRAM  used = %5s bytes (%2s%%)\n" "$sram" "$sram_used"
 else
     echo "$ELF not exists."
 fi
 
+exit 0

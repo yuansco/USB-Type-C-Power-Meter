@@ -12,7 +12,7 @@
  * BUILD_DATE will update by build.sh, Don't modify date directly.
  */
 #define VERSION "V1.0"
-#define BUILD_DATE "2022.09.26"
+#define BUILD_DATE "2022.11.05"
 
 /**
  *  UART Debug log

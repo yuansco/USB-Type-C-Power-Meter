@@ -30,7 +30,7 @@ WER = -Werror
 # paths
 #######################################
 # Build path
-BUILD_DIR = build
+BUILD_DIR = Build
 
 ######################################
 # source
